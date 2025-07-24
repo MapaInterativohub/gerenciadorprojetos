@@ -1,20 +1,10 @@
-package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
+package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
-@Entity
-@Table(name = "db_projetos")
-
-public class ClassProjetos {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
+public class dtoProjetos {
  private String nomeDoProjeto;
  private String descricaoDoProjeto;
  private String areaDeConhecimento;
@@ -23,93 +13,66 @@ public class ClassProjetos {
  private String alunosParticipantesDoProjeto;
  private String linkGit;
  private String linkImage;
-
- public ClassProjetos(){
+ 
+ public dtoProjetos(){
 
  }
 
- public ClassProjetos(Long id, String nomeDoProjeto, String descricaoDoProjeto, String areaDeConhecimento,
-   Date dataDeInicioDoProjeto, Date dataDoFimDoProjeto, String alunosParticipantesDoProjeto, String linkGit,
-   String linkImage) {
-  this.id = id;
-  this.nomeDoProjeto = nomeDoProjeto;
-  this.descricaoDoProjeto = descricaoDoProjeto;
-  this.areaDeConhecimento = areaDeConhecimento;
-  this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
-  this.dataDoFimDoProjeto = dataDoFimDoProjeto;
-  this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
-  this.linkGit = linkGit;
-  this.linkImage = linkImage;
+ public dtoProjetos(ClassProjetos classProjetos) {
+  this.nomeDoProjeto = classProjetos.getNomeDoProjeto();
+  this.descricaoDoProjeto = classProjetos.getDescricaoDoProjeto();
+  this.areaDeConhecimento = classProjetos.getAreaDeConhecimento();
+  this.dataDeInicioDoProjeto = classProjetos.getDataDeInicioDoProjeto();
+  this.dataDoFimDoProjeto = classProjetos.getDataDoFimDoProjeto();
+  this.alunosParticipantesDoProjeto = classProjetos.getAlunosParticipantesDoProjeto();
+  this.linkGit = classProjetos.getLinkGit();
+  this.linkImage = classProjetos.getLinkImage();
  }
-
- public Long getId() {
-  return id;
- }
-
- public void setId(Long id) {
-  this.id = id;
- }
-
  public String getNomeDoProjeto() {
   return nomeDoProjeto;
  }
-
  public void setNomeDoProjeto(String nomeDoProjeto) {
   this.nomeDoProjeto = nomeDoProjeto;
  }
-
  public String getDescricaoDoProjeto() {
   return descricaoDoProjeto;
  }
-
  public void setDescricaoDoProjeto(String descricaoDoProjeto) {
   this.descricaoDoProjeto = descricaoDoProjeto;
  }
-
  public String getAreaDeConhecimento() {
   return areaDeConhecimento;
  }
-
  public void setAreaDeConhecimento(String areaDeConhecimento) {
   this.areaDeConhecimento = areaDeConhecimento;
  }
-
  public Date getDataDeInicioDoProjeto() {
   return dataDeInicioDoProjeto;
  }
-
  public void setDataDeInicioDoProjeto(Date dataDeInicioDoProjeto) {
   this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
  }
-
  public Date getDataDoFimDoProjeto() {
   return dataDoFimDoProjeto;
  }
-
  public void setDataDoFimDoProjeto(Date dataDoFimDoProjeto) {
   this.dataDoFimDoProjeto = dataDoFimDoProjeto;
  }
-
  public String getAlunosParticipantesDoProjeto() {
   return alunosParticipantesDoProjeto;
  }
-
  public void setAlunosParticipantesDoProjeto(String alunosParticipantesDoProjeto) {
   this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
  }
-
  public String getLinkGit() {
   return linkGit;
  }
-
  public void setLinkGit(String linkGit) {
   this.linkGit = linkGit;
  }
-
  public String getLinkImage() {
   return linkImage;
  }
-
  public void setLinkImage(String linkImage) {
   this.linkImage = linkImage;
  }
