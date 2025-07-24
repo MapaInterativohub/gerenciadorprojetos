@@ -1,117 +1,62 @@
-package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
+package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name="db_alunos")
-public class ClassAlunos {
- @Id
- @GeneratedValue(strategy=GenerationType.IDENTITY)
- private Long id;
-
- @Column(unique = true, nullable = false)
- private String ra;
-
- @Column(unique = true, nullable = false)
+public class dtoAlunosRespost {
  private String emailInstitucional;
-
- @Column(nullable = false)
  private String nome;
- @Column(nullable = false)
  private String curso;
-
- @Column(nullable = false)
  private String projetoSelecionado;
-
  private String motivoDaInscricao;
- @Column(nullable = false)
- private LocalDate dataInscricao;
 
- public ClassAlunos(){
-
- }
-
- public ClassAlunos(Long id, String ra, String emailInstitucional, String nome, String curso, String projetoSelecionado,
-   String motivoDaInscricao, LocalDate dataInscricao) {
-
-  this.id = id;
-  this.ra = ra;
+ public dtoAlunosRespost(String emailInstitucional, String nome, String curso, String projetoSelecionado,
+    String motivoDaInscricao) {
   this.emailInstitucional = emailInstitucional;
   this.nome = nome;
   this.curso = curso;
   this.projetoSelecionado = projetoSelecionado;
   this.motivoDaInscricao = motivoDaInscricao;
-  this.dataInscricao = dataInscricao;
  }
-
- public Long getId() {
-  return id;
- }
-
- public void setId(Long id) {
-  this.id = id;
- }
-
- public String getRa() {
-  return ra;
- }
-
- public void setRa(String ra) {
-  this.ra = ra;
- }
-
+ 
  public String getEmailInstitucional() {
   return emailInstitucional;
  }
-
  public void setEmailInstitucional(String emailInstitucional) {
   this.emailInstitucional = emailInstitucional;
  }
-
  public String getNome() {
   return nome;
  }
-
  public void setNome(String nome) {
   this.nome = nome;
  }
-
  public String getCurso() {
   return curso;
  }
-
  public void setCurso(String curso) {
   this.curso = curso;
  }
-
  public String getProjetoSelecionado() {
   return projetoSelecionado;
  }
-
  public void setProjetoSelecionado(String projetoSelecionado) {
   this.projetoSelecionado = projetoSelecionado;
  }
-
  public String getMotivoDaInscricao() {
   return motivoDaInscricao;
  }
-
  public void setMotivoDaInscricao(String motivoDaInscricao) {
   this.motivoDaInscricao = motivoDaInscricao;
  }
 
- public LocalDate getDataInscricao() {
-  return dataInscricao;
- }
+ 
 
- public void setDataInscricao(LocalDate dataInscricao) {
-  this.dataInscricao = dataInscricao;
- }
 }

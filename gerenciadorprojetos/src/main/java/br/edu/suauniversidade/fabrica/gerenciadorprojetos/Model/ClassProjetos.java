@@ -1,116 +1,148 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "db_projetos")
 
 public class ClassProjetos {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
- private String nomeDoProjeto;
- private String descricaoDoProjeto;
- private String areaDeConhecimento;
- private Date dataDeInicioDoProjeto;
- private Date dataDoFimDoProjeto;
- private String alunosParticipantesDoProjeto;
- private String linkGit;
- private String linkImage;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
- public ClassProjetos(){
+  @Column(unique = true)
+  private String identicadorProjetos;
 
- }
+  @Column(unique = true, nullable = false)
+  private String nomeDoProjeto;
+  private String descricaoDoProjeto;
 
- public ClassProjetos(Long id, String nomeDoProjeto, String descricaoDoProjeto, String areaDeConhecimento,
-   Date dataDeInicioDoProjeto, Date dataDoFimDoProjeto, String alunosParticipantesDoProjeto, String linkGit,
-   String linkImage) {
-  this.id = id;
-  this.nomeDoProjeto = nomeDoProjeto;
-  this.descricaoDoProjeto = descricaoDoProjeto;
-  this.areaDeConhecimento = areaDeConhecimento;
-  this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
-  this.dataDoFimDoProjeto = dataDoFimDoProjeto;
-  this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
-  this.linkGit = linkGit;
-  this.linkImage = linkImage;
- }
+  @Column(nullable = false)
+  private String areaDeConhecimento;
 
- public Long getId() {
-  return id;
- }
+  @Column(nullable = false)
+  private LocalDate dataDeInicioDoProjeto;
 
- public void setId(Long id) {
-  this.id = id;
- }
+  @Column(nullable = false)
+  private LocalDate dataDoFimDoProjeto;
 
- public String getNomeDoProjeto() {
-  return nomeDoProjeto;
- }
+  private String alunosParticipantesDoProjeto;
 
- public void setNomeDoProjeto(String nomeDoProjeto) {
-  this.nomeDoProjeto = nomeDoProjeto;
- }
+  @Column(unique = true, nullable = false)
+  private String linkGit;
+  private String linkImage;
 
- public String getDescricaoDoProjeto() {
-  return descricaoDoProjeto;
- }
+  public ClassProjetos() {
 
- public void setDescricaoDoProjeto(String descricaoDoProjeto) {
-  this.descricaoDoProjeto = descricaoDoProjeto;
- }
+  }
 
- public String getAreaDeConhecimento() {
-  return areaDeConhecimento;
- }
+  public ClassProjetos(Long id, String identicadorProjetos, String nomeDoProjeto, String descricaoDoProjeto,
+      String areaDeConhecimento, LocalDate dataDeInicioDoProjeto, LocalDate dataDoFimDoProjeto,
+      String alunosParticipantesDoProjeto, String linkGit, String linkImage) {
+    this.id = id;
+    this.identicadorProjetos = identicadorProjetos;
+    this.nomeDoProjeto = nomeDoProjeto;
+    this.descricaoDoProjeto = descricaoDoProjeto;
+    this.areaDeConhecimento = areaDeConhecimento;
+    this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
+    this.dataDoFimDoProjeto = dataDoFimDoProjeto;
+    this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
+    this.linkGit = linkGit;
+    this.linkImage = linkImage;
+  }
 
- public void setAreaDeConhecimento(String areaDeConhecimento) {
-  this.areaDeConhecimento = areaDeConhecimento;
- }
+  @PrePersist
+  public void geraCodigoProjeto() {
+    String prefixo = "PROJ";
+    int numero = (int) (Math.random() * 9000) + 1000;
+    this.identicadorProjetos = prefixo + numero;
+  }
 
- public Date getDataDeInicioDoProjeto() {
-  return dataDeInicioDoProjeto;
- }
+  public Long getId() {
+    return id;
+  }
 
- public void setDataDeInicioDoProjeto(Date dataDeInicioDoProjeto) {
-  this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
- }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
- public Date getDataDoFimDoProjeto() {
-  return dataDoFimDoProjeto;
- }
+  public String getIdenticadorProjetos() {
+    return identicadorProjetos;
+  }
 
- public void setDataDoFimDoProjeto(Date dataDoFimDoProjeto) {
-  this.dataDoFimDoProjeto = dataDoFimDoProjeto;
- }
+  public void setIdenticadorProjetos(String identicadorProjetos) {
+    this.identicadorProjetos = identicadorProjetos;
+  }
 
- public String getAlunosParticipantesDoProjeto() {
-  return alunosParticipantesDoProjeto;
- }
+  public String getNomeDoProjeto() {
+    return nomeDoProjeto;
+  }
 
- public void setAlunosParticipantesDoProjeto(String alunosParticipantesDoProjeto) {
-  this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
- }
+  public void setNomeDoProjeto(String nomeDoProjeto) {
+    this.nomeDoProjeto = nomeDoProjeto;
+  }
 
- public String getLinkGit() {
-  return linkGit;
- }
+  public String getDescricaoDoProjeto() {
+    return descricaoDoProjeto;
+  }
 
- public void setLinkGit(String linkGit) {
-  this.linkGit = linkGit;
- }
+  public void setDescricaoDoProjeto(String descricaoDoProjeto) {
+    this.descricaoDoProjeto = descricaoDoProjeto;
+  }
 
- public String getLinkImage() {
-  return linkImage;
- }
+  public String getAreaDeConhecimento() {
+    return areaDeConhecimento;
+  }
 
- public void setLinkImage(String linkImage) {
-  this.linkImage = linkImage;
- }
+  public void setAreaDeConhecimento(String areaDeConhecimento) {
+    this.areaDeConhecimento = areaDeConhecimento;
+  }
+
+  public LocalDate getDataDeInicioDoProjeto() {
+    return dataDeInicioDoProjeto;
+  }
+
+  public void setDataDeInicioDoProjeto(LocalDate dataDeInicioDoProjeto) {
+    this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
+  }
+
+  public LocalDate getDataDoFimDoProjeto() {
+    return dataDoFimDoProjeto;
+  }
+
+  public void setDataDoFimDoProjeto(LocalDate dataDoFimDoProjeto) {
+    this.dataDoFimDoProjeto = dataDoFimDoProjeto;
+  }
+
+  public String getAlunosParticipantesDoProjeto() {
+    return alunosParticipantesDoProjeto;
+  }
+
+  public void setAlunosParticipantesDoProjeto(String alunosParticipantesDoProjeto) {
+    this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
+  }
+
+  public String getLinkGit() {
+    return linkGit;
+  }
+
+  public void setLinkGit(String linkGit) {
+    this.linkGit = linkGit;
+  }
+
+  public String getLinkImage() {
+    return linkImage;
+  }
+
+  public void setLinkImage(String linkImage) {
+    this.linkImage = linkImage;
+  }
 }

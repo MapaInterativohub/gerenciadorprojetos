@@ -1,15 +1,21 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
 public class dtoProjetos {
+ @JsonProperty(access = Access.READ_ONLY)
+ private String identicadorProjetos;
  private String nomeDoProjeto;
  private String descricaoDoProjeto;
  private String areaDeConhecimento;
- private Date dataDeInicioDoProjeto;
- private Date dataDoFimDoProjeto;
+ private LocalDate dataDeInicioDoProjeto;
+ private LocalDate dataDoFimDoProjeto;
  private String alunosParticipantesDoProjeto;
  private String linkGit;
  private String linkImage;
@@ -19,6 +25,7 @@ public class dtoProjetos {
  }
 
  public dtoProjetos(ClassProjetos classProjetos) {
+  this.identicadorProjetos = classProjetos.getIdenticadorProjetos();
   this.nomeDoProjeto = classProjetos.getNomeDoProjeto();
   this.descricaoDoProjeto = classProjetos.getDescricaoDoProjeto();
   this.areaDeConhecimento = classProjetos.getAreaDeConhecimento();
@@ -27,6 +34,14 @@ public class dtoProjetos {
   this.alunosParticipantesDoProjeto = classProjetos.getAlunosParticipantesDoProjeto();
   this.linkGit = classProjetos.getLinkGit();
   this.linkImage = classProjetos.getLinkImage();
+ }
+
+ public String getIdenticadorProjetos() {
+  return identicadorProjetos;
+ }
+
+ public void setIdenticadorProjetos(String identicadorProjetos) {
+  this.identicadorProjetos = identicadorProjetos;
  }
  public String getNomeDoProjeto() {
   return nomeDoProjeto;
@@ -46,16 +61,16 @@ public class dtoProjetos {
  public void setAreaDeConhecimento(String areaDeConhecimento) {
   this.areaDeConhecimento = areaDeConhecimento;
  }
- public Date getDataDeInicioDoProjeto() {
+ public LocalDate getDataDeInicioDoProjeto() {
   return dataDeInicioDoProjeto;
  }
- public void setDataDeInicioDoProjeto(Date dataDeInicioDoProjeto) {
+ public void setDataDeInicioDoProjeto(LocalDate dataDeInicioDoProjeto) {
   this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
  }
- public Date getDataDoFimDoProjeto() {
+ public LocalDate getDataDoFimDoProjeto() {
   return dataDoFimDoProjeto;
  }
- public void setDataDoFimDoProjeto(Date dataDoFimDoProjeto) {
+ public void setDataDoFimDoProjeto(LocalDate dataDoFimDoProjeto) {
   this.dataDoFimDoProjeto = dataDoFimDoProjeto;
  }
  public String getAlunosParticipantesDoProjeto() {

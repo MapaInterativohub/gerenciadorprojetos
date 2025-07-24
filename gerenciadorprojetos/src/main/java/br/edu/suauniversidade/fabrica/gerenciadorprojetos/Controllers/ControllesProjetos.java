@@ -28,7 +28,6 @@ public class ControllesProjetos {
  @PostMapping("/addprojetos")
  public ResponseEntity<dtoProjetos> CreatinProjeto(@RequestBody dtoProjetos DTO) {
   ClassProjetos projeto = new ClassProjetos();
-
   projeto.setNomeDoProjeto(DTO.getNomeDoProjeto());
   projeto.setDescricaoDoProjeto(DTO.getDescricaoDoProjeto());
   projeto.setAreaDeConhecimento(DTO.getAreaDeConhecimento());
