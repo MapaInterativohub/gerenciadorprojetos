@@ -1,7 +1,6 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;

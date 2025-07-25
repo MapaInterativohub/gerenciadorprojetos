@@ -1,14 +1,6 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 
 public class dtoAlunosRespost {
  private String emailInstitucional;
@@ -17,13 +9,17 @@ public class dtoAlunosRespost {
  private String projetoSelecionado;
  private String motivoDaInscricao;
 
- public dtoAlunosRespost(String emailInstitucional, String nome, String curso, String projetoSelecionado,
-    String motivoDaInscricao) {
-  this.emailInstitucional = emailInstitucional;
-  this.nome = nome;
-  this.curso = curso;
-  this.projetoSelecionado = projetoSelecionado;
-  this.motivoDaInscricao = motivoDaInscricao;
+ public dtoAlunosRespost(){
+
+ }
+
+ public dtoAlunosRespost(ClassAlunos classAlunos) {
+
+  this.emailInstitucional = classAlunos.getEmailInstitucional();
+  this.nome = classAlunos.getNome();
+  this.curso = classAlunos.getCurso();
+  this.projetoSelecionado = classAlunos.getProjetoSelecionado();
+  this.motivoDaInscricao = classAlunos.getMotivoDaInscricao();
  }
  
  public String getEmailInstitucional() {
@@ -56,7 +52,4 @@ public class dtoAlunosRespost {
  public void setMotivoDaInscricao(String motivoDaInscricao) {
   this.motivoDaInscricao = motivoDaInscricao;
  }
-
- 
-
 }
