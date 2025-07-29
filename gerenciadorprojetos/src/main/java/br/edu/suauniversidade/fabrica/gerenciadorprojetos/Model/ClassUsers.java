@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+//CLASSE DE INSTANCIA DE USUARIOS E A CRIAÇÃO DE TABELA DE USUARIOS
+
 @Entity
 @Table(name = "db_users")
 

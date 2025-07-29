@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+//CLASSE DE INSTANCIA DE ALUNOS E A CRIAÇÃO DE TABELA DE ALUNOS
+
 @Entity
 @Table(name="db_alunos")
 public class ClassAlunos {

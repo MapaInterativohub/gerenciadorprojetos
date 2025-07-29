@@ -2,6 +2,7 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import java.time.LocalDate;
 
+//CLASSE DE CRIAÇÃO DE DTO DE ALUNOS PARA POSTAR INFOMAÇOES PARA OS USUARIOS
 
 public class dtoAlunosPost {
  private String ra;

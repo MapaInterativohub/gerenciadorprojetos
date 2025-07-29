@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
+//CLASSE DE CRIAÇÃO DE DTO DE PROJETOS PARA LIMITAR OS DADOS PARA O USUARIO 
+
 public class dtoProjetos {
  @JsonProperty(access = Access.READ_ONLY)
  private String identicadorProjetos;

@@ -3,7 +3,6 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoAlunosPost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoAlunosRespost;
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryAlunos;
-import jakarta.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/alunos")
-
 public class ControllersAlunos {
     @Autowired
     RepositoryAlunos repositoryAlunos;

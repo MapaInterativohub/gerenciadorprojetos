@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 
+// CRIAÇÃO DO REPOSITORIO DE ALUNOS
+
 @Repository
 public interface RepositoryAlunos extends JpaRepository<ClassAlunos, Long> {
  Optional<ClassAlunos> findByRa(String ra);

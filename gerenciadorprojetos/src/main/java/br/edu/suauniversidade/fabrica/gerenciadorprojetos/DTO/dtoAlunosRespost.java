@@ -2,6 +2,8 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 
+//CLASSE DE CRIAÇÃO DE DTO DE ALUNOS PARA RESPOSTA PARA OS USUARIOS 
+
 public class dtoAlunosRespost {
  private String ra;
  private String emailInstitucional;
