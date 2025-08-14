@@ -21,6 +21,7 @@ public class ClassGestores {
     @Column(nullable = false, unique = true)
     private String cursoResposavel;
     
+    @Column(columnDefinition = "TEXT" ,nullable = false)
     private String descricao;
     @Column(nullable = false, unique = true)
     private String linkImagenGestor;

@@ -21,7 +21,7 @@ public class ClassConfigSite {
  @Column(nullable = false)
  private String nomeConfig;
 
- @Column(nullable = false)
+ @Column(columnDefinition = "TEXT")
  private String valorSalvo;
 
  public ClassConfigSite(){
