@@ -23,7 +23,7 @@ public class ClassGestores {
     
     @Column(columnDefinition = "TEXT" ,nullable = false)
     private String descricao;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,columnDefinition = "TEXT")
     private String linkImagenGestor;
 
     public ClassGestores(Long id, String codigoGestor, String name, String cursoResposavel, String descricao,

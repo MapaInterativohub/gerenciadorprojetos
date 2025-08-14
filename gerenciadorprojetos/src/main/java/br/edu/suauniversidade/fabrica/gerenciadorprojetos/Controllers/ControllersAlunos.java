@@ -40,15 +40,18 @@ public class ControllersAlunos {
         aluno.setCurso(dto.getCurso());
         aluno.setDataInscricao(dto.getDataInscricao());
         aluno.setProjetoSelecionado(dto.getProjetoSelecionado());
+        aluno.setMotivoDaInscricao(dto.getMotivoDaInscricao());
 
         ClassAlunos salvo = repositoryAlunos.save(aluno);
 
         dtoAlunosRespost dtoResposta = new dtoAlunosRespost();
 
+        dtoResposta.setRa(salvo.getRa());
         dtoResposta.setNome(salvo.getNome());
         dtoResposta.setEmailInstitucional(salvo.getEmailInstitucional());
         dtoResposta.setCurso(salvo.getCurso());
         dtoResposta.setProjetoSelecionado(salvo.getProjetoSelecionado());
+        dtoResposta.setMotivoDaInscricao(salvo.getMotivoDaInscricao());
 
         return ResponseEntity.ok(dtoResposta);
     }

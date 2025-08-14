@@ -17,6 +17,7 @@ public class ClassCarrocel {
 
     @Column(unique = true)
     private String codigoImagem;
+    @Column(columnDefinition = "TEXT")
     private String linkImagenCarrocel;
     private Boolean imagenAtivadaDesativada;
 

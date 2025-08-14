@@ -25,6 +25,7 @@ public class ClassProjetos {
 
   @Column(unique = true, nullable = false)
   private String nomeDoProjeto;
+  @Column(columnDefinition = "TEXT" ,nullable = false)
   private String descricaoDoProjeto;
 
   @Column(nullable = false)
@@ -38,7 +39,7 @@ public class ClassProjetos {
 
   private String alunosParticipantesDoProjeto;
 
-  @Column(unique = true, nullable = false)
+  @Column(unique = true, nullable = false, columnDefinition = "TEXT")
   private String linkGit;
   private String linkImage;
 

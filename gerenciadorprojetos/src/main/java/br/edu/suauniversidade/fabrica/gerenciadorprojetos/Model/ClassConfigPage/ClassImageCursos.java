@@ -1,5 +1,6 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassConfigPage;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,10 +13,11 @@ import jakarta.persistence.Table;
 public class ClassImageCursos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Long id;
     private String codigoImagem;
+    @Column(columnDefinition = "TEXT")
     private String linkImagemCurso;
+    @Column(nullable = false, unique = true)
     private String altImagem;
 
     public ClassImageCursos(){

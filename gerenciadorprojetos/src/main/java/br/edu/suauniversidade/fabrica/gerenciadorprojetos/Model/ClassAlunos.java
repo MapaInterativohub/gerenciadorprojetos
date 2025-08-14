@@ -32,8 +32,10 @@ public class ClassAlunos {
  @Column(nullable = false)
  private String projetoSelecionado;
 
+ @Column(columnDefinition = "TEXT" ,nullable = false)
  private String motivoDaInscricao;
- @Column(nullable = false)
+ 
+ @Column(nullable = false,columnDefinition = "TEXT")
  private LocalDate dataInscricao;
 
  public ClassAlunos(){
