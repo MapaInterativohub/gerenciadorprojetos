@@ -1,12 +1,19 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
@@ -25,7 +32,7 @@ public class ClassProjetos {
 
   @Column(unique = true, nullable = false)
   private String nomeDoProjeto;
-  @Column(columnDefinition = "TEXT" ,nullable = false)
+  @Column(columnDefinition = "TEXT", nullable = false)
   private String descricaoDoProjeto;
 
   @Column(nullable = false)
@@ -37,7 +44,9 @@ public class ClassProjetos {
   @Column(nullable = false)
   private LocalDate dataDoFimDoProjeto;
 
-  private String alunosParticipantesDoProjeto;
+  @OneToMany(mappedBy = "projetoSelecionado",cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonManagedReference
+  private List<ClassAlunos> alunosParticipantesDoProjeto = new ArrayList<>();
 
   private String profesorOrientador;
 
@@ -51,7 +60,7 @@ public class ClassProjetos {
 
   public ClassProjetos(Long id, String identicadorProjetos, String nomeDoProjeto, String descricaoDoProjeto,
       String areaDeConhecimento, LocalDate dataDeInicioDoProjeto, LocalDate dataDoFimDoProjeto,
-      String alunosParticipantesDoProjeto,String profesorOrientador, String linkGit, String linkImage) {
+      List<ClassAlunos> alunosParticipantesDoProjeto, String profesorOrientador, String linkGit, String linkImage) {
     this.id = id;
     this.identicadorProjetos = identicadorProjetos;
     this.nomeDoProjeto = nomeDoProjeto;
@@ -128,11 +137,11 @@ public class ClassProjetos {
     this.dataDoFimDoProjeto = dataDoFimDoProjeto;
   }
 
-  public String getAlunosParticipantesDoProjeto() {
+  public List<ClassAlunos> getAlunosParticipantesDoProjeto() {
     return alunosParticipantesDoProjeto;
   }
 
-  public void setAlunosParticipantesDoProjeto(String alunosParticipantesDoProjeto) {
+  public void setAlunosParticipantesDoProjeto(List<ClassAlunos> alunosParticipantesDoProjeto) {
     this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
 
   }

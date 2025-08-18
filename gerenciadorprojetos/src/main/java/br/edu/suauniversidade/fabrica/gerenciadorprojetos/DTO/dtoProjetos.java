@@ -1,10 +1,12 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
 //CLASSE DE CRIAÇÃO DE DTO DE PROJETOS PARA LIMITAR OS DADOS PARA O USUARIO 
@@ -17,7 +19,7 @@ public class dtoProjetos {
     private String areaDeConhecimento;
     private LocalDate dataDeInicioDoProjeto;
     private LocalDate dataDoFimDoProjeto;
-    private String alunosParticipantesDoProjeto;
+    private List<ClassAlunos> alunosParticipantesDoProjeto;
     private String profesorOrientador;
 
     private String linkGit;
@@ -88,11 +90,11 @@ public class dtoProjetos {
         this.dataDoFimDoProjeto = dataDoFimDoProjeto;
     }
 
-    public String getAlunosParticipantesDoProjeto() {
+    public List<ClassAlunos> getAlunosParticipantesDoProjeto() {
         return alunosParticipantesDoProjeto;
     }
 
-    public void setAlunosParticipantesDoProjeto(String alunosParticipantesDoProjeto) {
+    public void setAlunosParticipantesDoProjeto(List<ClassAlunos> alunosParticipantesDoProjeto) {
         this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
     }
 

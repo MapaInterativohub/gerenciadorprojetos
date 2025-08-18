@@ -22,7 +22,7 @@ public class dtoAlunosRespost {
   this.emailInstitucional = classAlunos.getEmailInstitucional();
   this.nome = classAlunos.getNome();
   this.curso = classAlunos.getCurso();
-  // this.projetoSelecionado = classAlunos.getProjetoSelecionado();
+  this.projetoSelecionado = classAlunos.getProjetoSelecionado().getIdenticadorProjetos();
   this.motivoDaInscricao = classAlunos.getMotivoDaInscricao();
  }
 

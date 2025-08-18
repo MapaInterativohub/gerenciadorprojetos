@@ -2,6 +2,8 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -32,8 +35,9 @@ public class ClassAlunos {
  @Column(nullable = false)
  private String curso;
 
- @OneToOne(cascade = CascadeType.ALL)
- @JoinColumn(referencedColumnName = "identicadorProjetos")
+ @ManyToOne
+ @JoinColumn(name = "projeto",referencedColumnName = "identicadorProjetos", nullable = false)
+ @JsonBackReference
  private ClassProjetos projetoSelecionado;
 
  @Column(columnDefinition = "TEXT" ,nullable = false)

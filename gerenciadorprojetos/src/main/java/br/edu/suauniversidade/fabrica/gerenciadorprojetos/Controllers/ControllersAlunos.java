@@ -61,7 +61,7 @@ public class ControllersAlunos {
         dtoResposta.setNome(salvo.getNome());
         dtoResposta.setEmailInstitucional(salvo.getEmailInstitucional());
         dtoResposta.setCurso(salvo.getCurso());
-        // dtoResposta.setProjetoSelecionado(salvo.getProjetoSelecionado());
+        dtoResposta.setProjetoSelecionado(salvo.getProjetoSelecionado().getIdenticadorProjetos());
         dtoResposta.setMotivoDaInscricao(salvo.getMotivoDaInscricao());
 
         return ResponseEntity.ok(dtoResposta);
