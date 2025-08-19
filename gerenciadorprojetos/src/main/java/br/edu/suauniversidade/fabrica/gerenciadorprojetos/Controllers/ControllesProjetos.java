@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoAtulizacaoInfomacao;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoPost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoResp;
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
+// import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryProjetos;

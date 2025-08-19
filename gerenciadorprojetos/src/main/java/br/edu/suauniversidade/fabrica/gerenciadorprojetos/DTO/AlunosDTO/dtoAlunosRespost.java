@@ -1,7 +1,7 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.AlunosDTO;
 
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
+// import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
 //CLASSE DE CRIAÇÃO DE DTO DE ALUNOS PARA RESPOSTA PARA OS USUARIOS 
 
