@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoGestores.dtoGestoresPost;
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoGestores.dtoGestoresRespost;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO.dtoGestoresPost;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO.dtoGestoresRespost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassGestores;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryGestores;

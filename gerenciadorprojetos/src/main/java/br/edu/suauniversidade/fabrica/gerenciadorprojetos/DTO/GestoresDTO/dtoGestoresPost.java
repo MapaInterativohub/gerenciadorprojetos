@@ -1,4 +1,4 @@
-package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.dtoGestores;
+package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO;
 
 import java.util.List;
 
