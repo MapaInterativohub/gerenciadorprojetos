@@ -3,7 +3,6 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.AlunosDTO.dtoAlunoRA;
 
 public class dtoProjetoAtulizacaoInfomacao {
  private String nomeDoProjeto;
