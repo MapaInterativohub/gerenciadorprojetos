@@ -25,7 +25,7 @@ public class dtoProjetoResp {
   }
 
   public dtoProjetoResp(ClassProjetos projetos) {
-    this.identicadorProjetos = projetos.getIdenticadorProjetos();
+    this.identicadorProjetos = projetos.getCodigoProjeto();
     this.nomeDoProjeto = projetos.getNomeDoProjeto();
     this.descricaoDoProjeto = projetos.getDescricaoDoProjeto();
     this.areaDeConhecimento = projetos.getAreaDeConhecimento();
