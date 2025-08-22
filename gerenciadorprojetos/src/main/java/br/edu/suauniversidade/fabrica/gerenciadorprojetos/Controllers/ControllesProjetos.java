@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoAtulizacaoInfomacao;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoPost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProjetoResp;
-// import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryProjetos;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServiceGetProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServicePostProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServicePutProjetos;
 
@@ -42,6 +42,9 @@ public class ControllesProjetos {
  @Autowired
  ServicePutProjetos servicePutProjetos;
 
+ @Autowired
+ ServiceGetProjetos serviceGetProjetos;
+
  @PostMapping("/addprojetos")
  public ResponseEntity<dtoProjetoResp> CreatinProjeto(@RequestBody dtoProjetoPost DTO) {
   ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
@@ -50,9 +53,7 @@ public class ControllesProjetos {
 
  @GetMapping("/getprojetos")
  public List<dtoProjetoResp> GetProjeto() {
-  List<ClassProjetos> projetos = repositorioProjetos.findAll();
-
-  return projetos.stream().map(dtoProjetoResp::new).toList();
+  return serviceGetProjetos.getProjetos();
  }
 
  @GetMapping("/getprojetos/{identicadorProjetos}")
