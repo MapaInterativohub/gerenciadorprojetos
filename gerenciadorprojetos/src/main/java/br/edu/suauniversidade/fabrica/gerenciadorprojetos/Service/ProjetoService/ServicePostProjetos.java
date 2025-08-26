@@ -31,11 +31,11 @@ public class ServicePostProjetos {
  public ResponseEntity<dtoProjetoResp> postProjeto(dtoProjetoPost dto) {
 
   List<ClassGestores> gestores = new ArrayList<>();
+  List<ClassAlunos> alunos = new ArrayList<>();
 
   if (dto.getProfesorOrientador() != null) {
    for (String identicadorGestor : dto.getProfesorOrientador()) {
     Optional<ClassGestores> gestor = repositoryGestores.findByCodigoGestor(identicadorGestor);
-    System.out.println("Existe");
     if (gestor.isPresent()) {
      gestores.add(gestor.get());
     } else {
@@ -44,12 +44,9 @@ public class ServicePostProjetos {
    }
   }
 
-  List<ClassAlunos> alunos = new ArrayList<>();
-
   if (dto.getAlunosParticipantesDoProjeto() != null) {
    for (String identicadorAlunos : dto.getAlunosParticipantesDoProjeto()) {
     Optional<ClassAlunos> aluno = repositoryAlunos.findByRa(identicadorAlunos);
-
     if (aluno.isPresent()) {
      alunos.add(aluno.get());
     } else {
@@ -59,18 +56,37 @@ public class ServicePostProjetos {
   }
 
   ClassProjetos novoProjeto = new ClassProjetos();
-
   novoProjeto.setNomeDoProjeto(dto.getNomeDoProjeto());
   novoProjeto.setDescricaoDoProjeto(dto.getDescricaoDoProjeto());
   novoProjeto.setAreaDeConhecimento(dto.getAreaDeConhecimento());
   novoProjeto.setDataDeInicioDoProjeto(dto.getDataDeInicioDoProjeto());
   novoProjeto.setDataDoFimDoProjeto(dto.getDataDoFimDoProjeto());
-  novoProjeto.setAlunosParticipantesDoProjeto(alunos);
-  novoProjeto.setProfesorOrientador(gestores);
   novoProjeto.setLinkGit(dto.getLinkGit());
   novoProjeto.setLinkImage(dto.getLinkImage());
+  novoProjeto.setAlunosParticipantesDoProjeto(alunos);
+  novoProjeto.setProfesorOrientador(gestores);
 
   ClassProjetos projetosavo = repositoryProjetos.save(novoProjeto);
+
+  for (String identicadorAlunos : dto.getAlunosParticipantesDoProjeto()) {
+   Optional<ClassAlunos> aluno = repositoryAlunos.findByRa(identicadorAlunos);
+
+   ClassAlunos atulizarProjetoAluno = aluno.get();
+   atulizarProjetoAluno.setProjetoSelecionado(projetosavo);
+   repositoryAlunos.save(atulizarProjetoAluno);
+   System.out.println("Salvo Aluno");
+
+  }
+
+   for (String identicadorGestor : dto.getProfesorOrientador()) {
+    Optional<ClassGestores> gestor = repositoryGestores.findByCodigoGestor(identicadorGestor);
+    ClassGestores atualizarGestor = gestor.get();
+    List<ClassProjetos> listaProjetos = atualizarGestor.getProjetos();
+    listaProjetos.add(projetosavo);
+    atualizarGestor.setProjetos(listaProjetos);
+    repositoryGestores.save(atualizarGestor);
+    System.out.println("Salvo Gestor");
+   }
 
   dtoProjetoResp resProjeto = new dtoProjetoResp();
 

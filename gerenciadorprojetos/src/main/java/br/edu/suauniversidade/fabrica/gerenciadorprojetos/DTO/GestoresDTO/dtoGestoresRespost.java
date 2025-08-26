@@ -1,6 +1,11 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassGestores;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 
 public class dtoGestoresRespost {
     private String codigoGestor;
@@ -8,25 +13,38 @@ public class dtoGestoresRespost {
     private String descricao;
     private String cursoResposavel;
     private String linkImagenGestor;
+    private List<String> projetos;
+
+    public List<String> getProjetos() {
+        return projetos;
+    }
+
+    public void setProjetos(List<String> projetos) {
+        this.projetos = projetos;
+    }
 
     public dtoGestoresRespost(String codigoGestor, String name, String descricao, String cursoResposavel,
-            String linkImagenGestor) {
+            String linkImagenGestor, List<String> projetos) {
         this.codigoGestor = codigoGestor;
         this.name = name;
         this.descricao = descricao;
         this.cursoResposavel = cursoResposavel;
         this.linkImagenGestor = linkImagenGestor;
+        this.projetos = projetos;
     }
 
     public dtoGestoresRespost() {
     }
 
-    public dtoGestoresRespost(ClassGestores gestor){
+    public dtoGestoresRespost(ClassGestores gestor) {
         this.codigoGestor = gestor.getCodigoGestor();
         this.name = gestor.getName();
         this.descricao = gestor.getDescricao();
         this.cursoResposavel = gestor.getCursoResposavel();
         this.linkImagenGestor = gestor.getLinkImagenGestor();
+        this.projetos = gestor.getProjetos().stream()
+                .map(ClassProjetos::getCodigoProjeto)
+                .collect(Collectors.toList());
     }
 
     public String getCodigoGestor() {
@@ -69,4 +87,3 @@ public class dtoGestoresRespost {
         this.linkImagenGestor = linkImagenGestor;
     }
 }
-

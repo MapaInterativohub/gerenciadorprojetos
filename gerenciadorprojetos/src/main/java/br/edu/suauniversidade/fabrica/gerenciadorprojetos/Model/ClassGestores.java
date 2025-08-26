@@ -47,16 +47,18 @@ public class ClassGestores {
     )
     private List<ClassProjetos> projetos = new ArrayList<>();
 
+
+
     public ClassGestores(Long id, String codigoGestor, String name, String cursoResposavel, String descricao,
-            String linkImagenGestor) {
+            String linkImagenGestor, List<ClassProjetos> projetos) {
         this.id = id;
         this.codigoGestor = codigoGestor;
         this.name = name;
         this.cursoResposavel = cursoResposavel;
         this.descricao = descricao;
         this.linkImagenGestor = linkImagenGestor;
+        this.projetos = projetos;
     }
-
     public ClassGestores() {
 
     }
