@@ -39,7 +39,6 @@ public class ServicePutProjetos {
     List<String> codigosGestores = new ArrayList<>();
 
     List<ClassAlunos> alunos = new ArrayList<>();
-    List<ClassGestores> gestores = new ArrayList<>();
 
     if (objDto.getAlunosParticipantesDoProjeto() != null) {
       // Apaga o projeto existente na entidade aluno para inserir um novo

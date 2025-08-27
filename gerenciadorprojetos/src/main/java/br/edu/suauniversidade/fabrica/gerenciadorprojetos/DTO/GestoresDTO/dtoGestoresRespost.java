@@ -3,7 +3,7 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassAlunos;
+
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassGestores;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 

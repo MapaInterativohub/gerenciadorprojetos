@@ -1,10 +1,8 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
