@@ -1,8 +1,10 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class ServicePostProjetos {
 
  public ResponseEntity<dtoProjetoResp> postProjeto(dtoProjetoPost dto) {
 
-  List<ClassGestores> gestores = new ArrayList<>();
+  Set<ClassGestores> gestores = new LinkedHashSet<>();
   List<ClassAlunos> alunos = new ArrayList<>();
 
   if (dto.getProfesorOrientador() != null) {

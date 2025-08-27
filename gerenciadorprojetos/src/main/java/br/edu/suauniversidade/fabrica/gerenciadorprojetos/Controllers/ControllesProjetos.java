@@ -14,9 +14,12 @@ import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.ProjetoDTO.dtoProj
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryAlunos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryProjetos;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServiceDeleteProjetos;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServiceGetProjeto;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServiceGetProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServicePostProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Service.ProjetoService.ServicePutProjetos;
+import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,115 +33,61 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/projetos")
 @CrossOrigin(origins = "*")
 public class ControllesProjetos {
- @Autowired
- RepositoryProjetos repositorioProjetos;
+  @Autowired
+  RepositoryProjetos repositorioProjetos;
 
- @Autowired
- RepositoryAlunos repositoryAlunos;
+  @Autowired
+  RepositoryAlunos repositoryAlunos;
 
- @Autowired
- ServicePostProjetos servicePostProjetos;
+  @Autowired
+  ServicePostProjetos servicePostProjetos;
 
- @Autowired
- ServicePutProjetos servicePutProjetos;
+  @Autowired
+  ServicePutProjetos servicePutProjetos;
 
- @Autowired
- ServiceGetProjetos serviceGetProjetos;
+  @Autowired
+  ServiceGetProjetos serviceGetProjetos;
 
- @PostMapping("/addprojetos")
- public ResponseEntity<dtoProjetoResp> CreatinProjeto(@RequestBody dtoProjetoPost DTO) {
-  ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
-  return gestore;
- }
+  @Autowired
+  ServiceDeleteProjetos serviceDeleteProjetos;
 
- @GetMapping("/getprojetos")
- public List<dtoProjetoResp> GetProjeto() {
-  return serviceGetProjetos.getProjetos();
- }
+  @Autowired
+  ServiceGetProjeto serviceGetProjeto;
+
+  @PostMapping("/addprojetos")
+  public ResponseEntity<dtoProjetoResp> CreatinProjeto(@RequestBody dtoProjetoPost DTO) {
+    ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
+    return gestore;
+  }
+
+  @GetMapping("/getprojetos")
+  public List<dtoProjetoResp> GetProjeto() {
+    return serviceGetProjetos.getProjetos();
+  }
 
  @GetMapping("/getprojetos/{identicadorProjetos}")
  public ResponseEntity<dtoProjetoResp> GetProjetoId(@PathVariable String identicadorProjetos) {
 
-  Optional<ClassProjetos> projetoOptional = repositorioProjetos.findByCodigoProjeto(identicadorProjetos);
+  ResponseEntity<dtoProjetoResp> service = serviceGetProjeto.getProjeto(identicadorProjetos);
 
-  if (projetoOptional.isEmpty()) {
-   return ResponseEntity.notFound().build();
-  }
-
-  ClassProjetos projeto = projetoOptional.get();
-
-  dtoProjetoResp dtoSelecionado = new dtoProjetoResp();
-
-  dtoSelecionado.setNomeDoProjeto(projeto.getNomeDoProjeto());
-  dtoSelecionado.setDescricaoDoProjeto(projeto.getDescricaoDoProjeto());
-  dtoSelecionado.setAreaDeConhecimento(projeto.getAreaDeConhecimento());
-  dtoSelecionado.setDataDeInicioDoProjeto(projeto.getDataDeInicioDoProjeto());
-  dtoSelecionado.setDataDoFimDoProjeto(projeto.getDataDoFimDoProjeto());
-  // dtoSelecionado.setAlunosParticipantesDoProjeto(projeto.getAlunosParticipantesDoProjeto());
-  // dtoSelecionado.setProfesorOrientador(projeto.getProfesorOrientador());
-  dtoSelecionado.setLinkGit(projeto.getLinkGit());
-  dtoSelecionado.setLinkImage(projeto.getLinkImage());
-
-  return ResponseEntity.ok(dtoSelecionado);
+  return service;
  }
 
  @PutMapping("/{identicadorProjetos}")
+ @Transactional
  public ResponseEntity<dtoProjetoAtulizacaoInfomacao> updateProjetos(@PathVariable String identicadorProjetos,
    @RequestBody dtoProjetoAtulizacaoInfomacao projeto) {
-
-  // Optional<ClassProjetos> projetoSelecionado =
-  // repositorioProjetos.findByCodigoProjeto(identicadorProjetos);
-  // if (projetoSelecionado.isEmpty()) {
-  // return ResponseEntity.badRequest().build();
-  // }
-
-  // ClassProjetos projetoEncontrado = projetoSelecionado.get();
-
-  // projetoEncontrado.setNomeDoProjeto(projeto.getNomeDoProjeto());
-  // projetoEncontrado.setDescricaoDoProjeto(projeto.getDescricaoDoProjeto());
-  // projetoEncontrado.setAreaDeConhecimento(projeto.getAreaDeConhecimento());
-  // projetoEncontrado.setDataDeInicioDoProjeto(projeto.getDataDeInicioDoProjeto());
-  // projetoEncontrado.setDataDoFimDoProjeto(projeto.getDataDoFimDoProjeto());
-  // //
-  // projetoEncontrado.setAlunosParticipantesDoProjeto(projeto.getAlunosParticipantesDoProjeto());
-  // // projetoEncontrado.setProfesorOrientador(projeto.getProfesorOrientador());
-  // projetoEncontrado.setLinkGit(projeto.getLinkGit());
-  // projetoEncontrado.setLinkImage(projeto.getLinkImage());
-
-  // repositorioProjetos.save(projetoEncontrado);
-
-  // dtoProjetoAtulizacaoInfomacao alualizacao = new
-  // dtoProjetoAtulizacaoInfomacao();
-
-  // alualizacao.setNomeDoProjeto(projetoEncontrado.getNomeDoProjeto());
-  // alualizacao.setDescricaoDoProjeto(projetoEncontrado.getDescricaoDoProjeto());
-  // alualizacao.setAreaDeConhecimento(projetoEncontrado.getAreaDeConhecimento());
-  // alualizacao.setDataDeInicioDoProjeto(projetoEncontrado.getDataDeInicioDoProjeto());
-  // alualizacao.setDataDoFimDoProjeto(projetoEncontrado.getDataDoFimDoProjeto());
-  // //
-  // projetoEncontrado.setAlunosParticipantesDoProjeto(projeto.getAlunosParticipantesDoProjeto());
-  // //
-  // alualizacao.setProfesorOrientador(projetoEncontrado.getProfesorOrientador());
-  // alualizacao.setLinkGit(projetoEncontrado.getLinkGit());
-  // alualizacao.setLinkImage(projetoEncontrado.getLinkImage());
-
   ResponseEntity<dtoProjetoAtulizacaoInfomacao> dtoProjetoRes = servicePutProjetos.putProjeto(identicadorProjetos,
     projeto);
 
   return dtoProjetoRes; // Melhor retornar o produto atualizado
  }
 
- @DeleteMapping("/{identicadorProjetos}")
- public ResponseEntity<?> DeleteProduct(@PathVariable String identicadorProjetos) {
-  Optional<ClassProjetos> projeto = repositorioProjetos.findByCodigoProjeto(identicadorProjetos);
+  @DeleteMapping("/{identicadorProjetos}")
+  public ResponseEntity<dtoProjetoResp> DeleteProduct(@PathVariable String identicadorProjetos) {
+    ResponseEntity<dtoProjetoResp> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos);
 
-  if (projeto.isEmpty()) {
-   return ResponseEntity.badRequest().body("Item não encontrado");
+    return serveice;
   }
-  ClassProjetos projetoEncontrado = projeto.get();
-  repositorioProjetos.delete(projetoEncontrado);
-
-  return ResponseEntity.ok(projetoEncontrado);
- }
 
 }

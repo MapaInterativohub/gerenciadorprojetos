@@ -2,7 +2,9 @@ package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -49,7 +51,7 @@ public class ClassProjetos {
   private List<ClassAlunos> alunosParticipantesDoProjeto = new ArrayList<>();
 
   @ManyToMany(mappedBy = "projetos")
-  private List<ClassGestores> profesorOrientador = new ArrayList<>();
+  private Set<ClassGestores> profesorOrientador = new LinkedHashSet<>();
 
   @Column(unique = true, nullable = false, columnDefinition = "TEXT")
   private String linkGit;
@@ -57,7 +59,7 @@ public class ClassProjetos {
 
   public ClassProjetos(Long id, String codigoProjeto, String nomeDoProjeto, String descricaoDoProjeto,
       String areaDeConhecimento, LocalDate dataDeInicioDoProjeto, LocalDate dataDoFimDoProjeto,
-      List<ClassAlunos> alunosParticipantesDoProjeto, List<ClassGestores> profesorOrientador, String linkGit, String linkImage) {
+      List<ClassAlunos> alunosParticipantesDoProjeto, Set<ClassGestores> profesorOrientador, String linkGit, String linkImage) {
     this.id = id;
     this.codigoProjeto = codigoProjeto;
     this.nomeDoProjeto = nomeDoProjeto;
@@ -142,11 +144,11 @@ public class ClassProjetos {
     this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
   }
 
-  public List<ClassGestores> getProfesorOrientador() {
+  public Set<ClassGestores> getProfesorOrientador() {
     return profesorOrientador;
   }
 
-  public void setProfesorOrientador(List<ClassGestores> profesorOrientador) {
+  public void setProfesorOrientador(Set<ClassGestores> profesorOrientador) {
     this.profesorOrientador = profesorOrientador;
   }
 
