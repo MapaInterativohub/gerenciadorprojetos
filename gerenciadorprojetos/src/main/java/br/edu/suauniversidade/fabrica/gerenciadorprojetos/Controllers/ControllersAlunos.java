@@ -50,6 +50,7 @@ public class ControllersAlunos {
         } else {
             aluno.setProjetoSelecionado(null);
         }
+        System.out.println(aluno.getProjetoSelecionado());
 
         aluno.setRa(dto.getRa());
         aluno.setNome(dto.getNome());
@@ -66,7 +67,9 @@ public class ControllersAlunos {
         dtoResposta.setNome(salvo.getNome());
         dtoResposta.setEmailInstitucional(salvo.getEmailInstitucional());
         dtoResposta.setCurso(salvo.getCurso());
-        dtoResposta.setProjetoSelecionado(aluno.getProjetoSelecionado().getNomeDoProjeto());
+        dtoResposta.setProjetoSelecionado(
+                salvo.getProjetoSelecionado() != null ? salvo.getProjetoSelecionado().getNomeDoProjeto() : null);
+
         dtoResposta.setMotivoDaInscricao(salvo.getMotivoDaInscricao());
 
         return ResponseEntity.ok(dtoResposta);
