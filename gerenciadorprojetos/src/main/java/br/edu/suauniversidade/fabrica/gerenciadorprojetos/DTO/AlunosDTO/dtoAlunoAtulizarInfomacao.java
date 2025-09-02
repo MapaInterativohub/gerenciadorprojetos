@@ -9,13 +9,22 @@ public class dtoAlunoAtulizarInfomacao {
  private String projetoSelecionado;
  private String motivoDaInscricao;
  private LocalDate dataInscricao;
+ private boolean status;
+
+ public boolean isStatus() {
+  return status;
+}
+
+ public void setStatus(boolean status) {
+  this.status = status;
+ }
 
  public dtoAlunoAtulizarInfomacao(){
   
  }
 
  public dtoAlunoAtulizarInfomacao(String emailInstitucional, String nome, String curso, String projetoSelecionado,
-   String motivoDaInscricao, LocalDate dataInscricao) {
+   String motivoDaInscricao, LocalDate dataInscricao, boolean status) {
 
   this.emailInstitucional = emailInstitucional;
   this.nome = nome;
@@ -23,6 +32,7 @@ public class dtoAlunoAtulizarInfomacao {
   this.projetoSelecionado = projetoSelecionado;
   this.motivoDaInscricao = motivoDaInscricao;
   this.dataInscricao = dataInscricao;
+  this.status = status;
  }
 
  public String getEmailInstitucional() {

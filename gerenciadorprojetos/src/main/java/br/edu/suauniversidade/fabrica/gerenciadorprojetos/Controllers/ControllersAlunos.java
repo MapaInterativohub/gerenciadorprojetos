@@ -97,7 +97,7 @@ public class ControllersAlunos {
         dtoSelecionado.setNome(projeto.getNome());
         dtoSelecionado.setEmailInstitucional(projeto.getEmailInstitucional());
         dtoSelecionado.setCurso(projeto.getCurso());
-        // dtoSelecionado.setProjetoSelecionado(projeto.getProjetoSelecionado());
+        dtoSelecionado.setProjetoSelecionado(projeto.getProjetoSelecionado() != null ? projeto.getProjetoSelecionado().getCodigoProjeto() : null);
         dtoSelecionado.setMotivoDaInscricao(projeto.getMotivoDaInscricao());
 
         return ResponseEntity.ok(dtoSelecionado);
@@ -153,6 +153,7 @@ public class ControllersAlunos {
         alunoEncontrado.setEmailInstitucional(dtoAluno.getEmailInstitucional());
         alunoEncontrado.setCurso(dtoAluno.getCurso());
         alunoEncontrado.setMotivoDaInscricao(dtoAluno.getMotivoDaInscricao());
+        alunoEncontrado.setStatus(dtoAluno.isStatus());
 
         ClassAlunos novoAluno = repositoryAlunos.save(alunoEncontrado);
 
