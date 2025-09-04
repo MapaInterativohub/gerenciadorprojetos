@@ -1,5 +1,7 @@
 package br.edu.suauniversidade.fabrica.gerenciadorprojetos.Controllers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO.dtoGestoresPost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.DTO.GestoresDTO.dtoGestoresRespost;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassGestores;
+import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Model.ClassProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryProjetos;
 import br.edu.suauniversidade.fabrica.gerenciadorprojetos.Repository.RepositoryGestores;
 
@@ -38,17 +41,24 @@ public class ControllersGestores {
     public ResponseEntity<dtoGestoresRespost> addGestores(@RequestBody dtoGestoresPost dtogestor) {
         ClassGestores gestor = new ClassGestores();
 
-        System.out.println("Recebido do front: -----------" + dtogestor.getName());
-        System.out.println("Recebido do front: -----------" + dtogestor.getCursoResposavel());
-        System.out.println("Recebido do front: -----------" + dtogestor.getDescricao());
-        System.out.println("Recebido do front: -----------" + dtogestor.getLinkImagenGestor());
+        List<ClassProjetos> listaDeProjetos = new ArrayList<>();
+
+        for(String projetos : dtogestor.getProjetos()){
+            Optional<ClassProjetos> projeto = repositoryProjetos.findByCodigoProjeto(projetos);
+
+            if(projeto.isPresent()){
+                listaDeProjetos.add(projeto.get());
+            }
+            else{
+                return ResponseEntity.badRequest().build();
+            }
+        }
 
         gestor.setName(dtogestor.getName());
         gestor.setCursoResposavel(dtogestor.getCursoResposavel());
         gestor.setDescricao(dtogestor.getDescricao());
         gestor.setLinkImagenGestor(dtogestor.getLinkImagenGestor());
-
-        // gestor.setProjetos(dtogestor.getProjetos());
+        gestor.setProjetos(listaDeProjetos);
 
         repositoryGestores.save(gestor);
 
