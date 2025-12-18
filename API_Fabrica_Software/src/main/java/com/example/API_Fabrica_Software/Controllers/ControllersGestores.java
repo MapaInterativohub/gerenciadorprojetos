@@ -1,0 +1,179 @@
+package com.example.API_Fabrica_Software.Controllers;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.API_Fabrica_Software.DTO.GestoresDTO.dtoGestoresPost;
+import com.example.API_Fabrica_Software.DTO.GestoresDTO.dtoGestoresRespost;
+import com.example.API_Fabrica_Software.Model.ClassGestores;
+import com.example.API_Fabrica_Software.Model.ClassProjetos;
+import com.example.API_Fabrica_Software.Repository.RepositoryProjetos;
+import com.example.API_Fabrica_Software.Repository.RepositoryGestores;
+
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@RestController
+@RequestMapping("/gestores")
+@CrossOrigin(origins = "*")
+public class ControllersGestores {
+    @Autowired
+    RepositoryGestores repositoryGestores;
+
+    @Autowired
+    RepositoryProjetos repositoryProjetos;
+
+    @PostMapping("/addgestores")
+    public ResponseEntity<dtoGestoresRespost> addGestores(@RequestBody dtoGestoresPost dtogestor) {
+        ClassGestores gestor = new ClassGestores();
+
+        List<ClassProjetos> listaDeProjetos = new ArrayList<>();
+
+        if (dtogestor.getProjetos() != null) {
+            for (String projetos : dtogestor.getProjetos()) {
+                Optional<ClassProjetos> projeto = repositoryProjetos.findByCodigoProjeto(projetos);
+
+                if (projeto.isPresent()) {
+                    listaDeProjetos.add(projeto.get());
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            }
+        }
+
+        gestor.setName(dtogestor.getName());
+        gestor.setCursoResposavel(dtogestor.getCursoResposavel());
+        gestor.setDescricao(dtogestor.getDescricao());
+        gestor.setLinkImagenGestor(dtogestor.getLinkImagenGestor());
+        gestor.setProjetos((listaDeProjetos != null) ? listaDeProjetos : null);
+
+        repositoryGestores.save(gestor);
+
+        dtoGestoresRespost dtoreposta = new dtoGestoresRespost();
+
+        dtoreposta.setCodigoGestor(gestor.getCodigoGestor());
+        dtoreposta.setName(gestor.getName());
+        dtoreposta.setCursoResposavel(gestor.getCursoResposavel());
+        dtoreposta.setDescricao(gestor.getDescricao());
+        dtoreposta.setLinkImagenGestor(gestor.getLinkImagenGestor());
+        dtoreposta.setProjetos(listaDeProjetos.stream()
+                                        .map(ClassProjetos::getCodigoProjeto)
+                                        .toList());
+
+        return ResponseEntity.ok(dtoreposta);
+    }
+
+    @GetMapping("/gestores")
+    public List<dtoGestoresRespost> GetGestores() {
+        List<ClassGestores> gestores = repositoryGestores.findAll();
+
+        return gestores.stream().map(dtoGestoresRespost::new).toList();
+    }
+
+    @GetMapping("/gestore/{CodigoGestor}")
+    public ResponseEntity<dtoGestoresRespost> getMethodName(@PathVariable String CodigoGestor) {
+        Optional<ClassGestores> gestoresselecionados = repositoryGestores.findByCodigoGestor(CodigoGestor);
+
+        if (gestoresselecionados.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ClassGestores gestor = gestoresselecionados.get();
+
+        dtoGestoresRespost dtoRes = new dtoGestoresRespost();
+
+        dtoRes.setCodigoGestor(gestor.getCodigoGestor());
+        dtoRes.setName(gestor.getName());
+        dtoRes.setCursoResposavel(gestor.getCursoResposavel());
+        dtoRes.setDescricao(gestor.getDescricao());
+        dtoRes.setLinkImagenGestor(gestor.getLinkImagenGestor());
+        dtoRes.setProjetos(gestor.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList());
+
+        return ResponseEntity.ok(dtoRes);
+    }
+
+    @PutMapping("/gestore/{CodigoGestor}")
+    public ResponseEntity<dtoGestoresRespost> putGestores(@PathVariable String CodigoGestor,
+            @RequestBody dtoGestoresPost gestorAtulisado) {
+        // TODO: process PUT request
+        Optional<ClassGestores> itenOptional = repositoryGestores.findByCodigoGestor(CodigoGestor);
+
+        if (itenOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<ClassProjetos> listaAtualisada = new ArrayList<>();
+
+        if(gestorAtulisado.getProjetos() != null){
+            for(String codigoProjeto : gestorAtulisado.getProjetos()){
+                Optional<ClassProjetos> progetoselecionado = repositoryProjetos.findByCodigoProjeto(codigoProjeto);
+
+                if(progetoselecionado.isPresent()){
+                    listaAtualisada.add(progetoselecionado.get());
+                }else{
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        }
+
+        ClassGestores gestor = itenOptional.get();
+
+        gestor.setName(gestorAtulisado.getName());
+        gestor.setCursoResposavel(gestorAtulisado.getCursoResposavel());
+        gestor.setDescricao(gestorAtulisado.getDescricao());
+        gestor.setLinkImagenGestor(gestorAtulisado.getLinkImagenGestor());
+        gestor.setProjetos((listaAtualisada != null) ? listaAtualisada : null);
+
+        repositoryGestores.save(gestor);
+
+        dtoGestoresRespost dtoRes = new dtoGestoresRespost();
+
+        dtoRes.setCodigoGestor(gestor.getCodigoGestor());
+        dtoRes.setName(gestor.getName());
+        dtoRes.setCursoResposavel(gestor.getCursoResposavel());
+        dtoRes.setDescricao(gestor.getDescricao());
+        dtoRes.setLinkImagenGestor(gestor.getLinkImagenGestor());
+        dtoRes.setProjetos((gestor.getProjetos() != null)?
+        gestor.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList() : null);
+
+        return ResponseEntity.ok(dtoRes);
+    }
+
+    @DeleteMapping("/gestore/{CodigoGestor}")
+    public ResponseEntity<dtoGestoresRespost> deleteGestores(@PathVariable String CodigoGestor) {
+
+        Optional<ClassGestores> itenOptional = repositoryGestores.findByCodigoGestor(CodigoGestor);
+
+        if (itenOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ClassGestores gestorDeletado = itenOptional.get();
+
+        dtoGestoresRespost dtoRes = new dtoGestoresRespost();
+
+        dtoRes.setCodigoGestor(gestorDeletado.getCodigoGestor());
+        dtoRes.setName(gestorDeletado.getName());
+        dtoRes.setCursoResposavel(gestorDeletado.getCursoResposavel());
+        dtoRes.setDescricao(gestorDeletado.getDescricao());
+        dtoRes.setLinkImagenGestor(gestorDeletado.getLinkImagenGestor());
+        dtoRes.setProjetos((gestorDeletado.getProjetos() != null)?
+        gestorDeletado.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList() : null);
+
+        repositoryGestores.delete(gestorDeletado);
+
+        return ResponseEntity.ok(dtoRes);
+    }
+
+}

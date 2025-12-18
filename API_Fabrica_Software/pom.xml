@@ -6,15 +6,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.3</version>
-		<relativePath />
-		<!-- lookup parent from repository -->
+		<version>4.0.0</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.edu.suauniversidade.fabrica</groupId>
-	<artifactId>gerenciadorprojetos</artifactId>
+	<groupId>com.example</groupId>
+	<artifactId>API_Fabrica_Software</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gerenciadorprojetos</name>
-	<description>Sistema de gerenciamento de projetos para a Fábrica de Software da faculdade.</description>
+	<name>API_Fabrica_Software</name>
+	<description>A API_Fabrica_Software é uma aplicação backend desenvolvida em Spring Boot, responsável por fornecer serviços para o gerenciamento de projetos da Fábrica de Software.</description>
 	<url />
 	<licenses>
 		<license />
@@ -60,6 +59,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
@@ -71,11 +71,32 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
