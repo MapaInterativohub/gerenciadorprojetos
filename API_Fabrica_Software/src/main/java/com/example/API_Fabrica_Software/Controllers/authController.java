@@ -1,10 +1,9 @@
 package com.example.API_Fabrica_Software.Controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,47 +15,55 @@ import com.example.API_Fabrica_Software.InfraSercurity.TokenService;
 import com.example.API_Fabrica_Software.Model.ClassUsers;
 import com.example.API_Fabrica_Software.Repository.RepositoryUser;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/auth")
-public class authController {
- @Autowired
- private RepositoryUser repository;
- @Autowired
- private PasswordEncoder passwordEncoder;
- @Autowired
- private TokenService tokenService;
+@CrossOrigin(origins = "http://localhost:3000")
 
- @PostMapping("/login")
- public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
-  ClassUsers user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
-  if (passwordEncoder.matches(body.password(), user.getPassword())) {
-   String token = this.tokenService.generateToken(user);
-   return ResponseEntity.ok(new ResponseDTO(user.getNome(), token));
-  }
-  return ResponseEntity.badRequest().build();
- }
+public class AuthController {
 
- @PostMapping("/register")
- public ResponseEntity<?> register(@RequestBody RegisterRequestDTO body) {
+  @Autowired
+  private RepositoryUser repository;
 
-  Optional<ClassUsers> user = this.repository.findByEmail(body.email());
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-  if (user.isEmpty()) {
+  @Autowired
+  private TokenService tokenService;
 
-   ClassUsers newUser = new ClassUsers();
-   newUser.setPassoword(passwordEncoder.encode(body.password()));
-   newUser.setEmail(body.email());
-   newUser.setNome(body.name());
+  @PostMapping("/login")
+  public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
 
-   this.repository.save(newUser);
+    ClassUsers user = repository.findByEmail(body.email())
+        .orElseThrow(() -> new RuntimeException("User not found"));
 
-   String token = this.tokenService.generateToken(newUser);
-   return ResponseEntity.ok(new ResponseDTO(newUser.getNome(), token));
+    if (passwordEncoder.matches(body.password(), user.getPassword())) {
+      String token = tokenService.generateToken(user);
+      return ResponseEntity.ok(new ResponseDTO(user.getNome(), token));
+    }
+
+    return ResponseEntity.status(401).body("Senha inválida");
   }
 
-  return ResponseEntity.badRequest().build();
- }
+  @PostMapping("/register")
+  public ResponseEntity<?> register(@RequestBody RegisterRequestDTO body) {
+    System.out.println("NAME: " + body.name());
+    System.out.println("EMAIL: " + body.email());
+    System.out.println("PASSWORD: " + body.password());
 
+    if (repository.findByEmail(body.email()).isPresent()) {
+      return ResponseEntity.badRequest().body("Usuário já existe");
+    }
+
+    ClassUsers newUser = new ClassUsers();
+    newUser.setEmail(body.email());
+    newUser.setNome(body.name());
+    newUser.setPassword(passwordEncoder.encode(body.password()));
+    newUser.setRoles("new_list");
+
+    repository.save(newUser);
+
+    String token = tokenService.generateToken(newUser);
+    return ResponseEntity.ok(new ResponseDTO(newUser.getNome(), token));
+  }
 }

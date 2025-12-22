@@ -1,103 +1,116 @@
 package com.example.API_Fabrica_Software.Model;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-//CLASSE DE INSTANCIA DE USUARIOS E A CRIAÇÃO DE TABELA DE USUARIOS
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "db_users")
-public class ClassUsers implements UserDetails{
+public class ClassUsers implements UserDetails {
+
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
- private String id;
+ private Long id; // ✅ CORRIGIDO
+
  private String nome;
 
- @Column(nullable = false)
+ @Column(nullable = false, unique = true)
  private String email;
- private String passoword;
- 
+
  @Column(nullable = false)
- private String roles;
+ private String password; // ✅ corrigido nome
 
- public ClassUsers(){
+ @Column(nullable = false)
+ private String roles; // ex: ROLE_USER
 
- }
-
- public ClassUsers(String id, String nome, String email, String passoword, String roles) {
+ public void setId(Long id) {
   this.id = id;
-  this.nome = nome;
-  this.email = email;
-  this.passoword = passoword;
-  this.roles = roles;
- }
-
- public String getId() {
-  return id;
- }
-
- public void setId(String id) {
-  this.id = id;
- }
-
- public String getNome() {
-  return nome;
  }
 
  public void setNome(String nome) {
   this.nome = nome;
- }
- 
- public String getEmail() {
-  return email;
  }
 
  public void setEmail(String email) {
   this.email = email;
  }
 
- public String getPassoword() {
-  return passoword;
- }
-
- public void setPassoword(String passoword) {
-  this.passoword = passoword;
- }
-
- public String getRoles() {
-  return roles;
+ public void setPassword(String password) {
+  this.password = password;
  }
 
  public void setRoles(String roles) {
   this.roles = roles;
  }
 
+ public ClassUsers() {
+ }
+
+ public ClassUsers(String nome, String email, String password, String roles) {
+  this.nome = nome;
+  this.email = email;
+  this.password = password;
+  this.roles = roles;
+ }
+
+ // ===== GETTERS E SETTERS =====
+
+ public Long getId() {
+  return id;
+ }
+
+ public String getNome() {
+  return nome;
+ }
+
+ public String getEmail() {
+  return email;
+ }
+
+ public String getRoles() {
+  return roles;
+ }
+
+ // ===== MÉTODOS DO SPRING SECURITY =====
+
  @Override
  public Collection<? extends GrantedAuthority> getAuthorities() {
-  // TODO Auto-generated method stub
-  throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+  return List.of(new SimpleGrantedAuthority(roles));
+  // ex: ROLE_USER
  }
 
  @Override
- public @Nullable String getPassword() {
-  // TODO Auto-generated method stub
-  throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+ public String getPassword() {
+  return this.password; // ✅ OBRIGATÓRIO
  }
 
  @Override
  public String getUsername() {
-  // TODO Auto-generated method stub
-  throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+  return this.email; // ✅ email como login
  }
 
+ @Override
+ public boolean isAccountNonExpired() {
+  return true;
+ }
+
+ @Override
+ public boolean isAccountNonLocked() {
+  return true;
+ }
+
+ @Override
+ public boolean isCredentialsNonExpired() {
+  return true;
+ }
+
+ @Override
+ public boolean isEnabled() {
+  return true;
+ }
 }
