@@ -17,6 +17,7 @@ C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Softwa
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\authiction\LoginRequestDTO.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\authiction\RegisterRequestDTO.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\authiction\ResponseDTO.java
+C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\authiction\updateDTO.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\ConfgDTOPage\dtoClassConfgSiteResp.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\ConfgDTOPage\dtoClassConfigSitePost.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\ConfgDTOPage\dtoClassConfigSitePut.java
