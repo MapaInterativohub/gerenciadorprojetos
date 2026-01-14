@@ -57,10 +57,16 @@ public class ClassAlunos {
 
   @ColumnDefault("false")
   private boolean status;
+
   @CreatedDate
+  @Column(name = "datadecriacao")
   private LocalDateTime dataDeCriacao;
+
   @LastModifiedDate
+  @Column(name = "datadeatualizacao")
   private LocalDateTime dataDeAtualizacao;
+
+  @Column(name = "idusuario")
   private Long idUsuario;
 
 

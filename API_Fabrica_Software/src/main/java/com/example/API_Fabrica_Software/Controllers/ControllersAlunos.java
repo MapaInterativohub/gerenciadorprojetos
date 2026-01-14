@@ -34,7 +34,7 @@ public class ControllersAlunos {
 
     @Autowired
     RepositoryProjetos repositoryProjetos;
-
+    
     @PostMapping("/addalunos")
     public ResponseEntity<dtoAlunosRespost> postAlunos(@RequestBody dtoAlunosPost dto) {
         // TODO: process POST request
@@ -69,7 +69,7 @@ public class ControllersAlunos {
         dtoResposta.setEmailInstitucional(salvo.getEmailInstitucional());
         dtoResposta.setCurso(salvo.getCurso());
         dtoResposta.setProjetoSelecionado(
-                salvo.getProjetoSelecionado() != null ? salvo.getProjetoSelecionado().getNomeDoProjeto() : null);
+        salvo.getProjetoSelecionado() != null ? salvo.getProjetoSelecionado().getNomeDoProjeto() : null);
 
         dtoResposta.setMotivoDaInscricao(salvo.getMotivoDaInscricao());
 

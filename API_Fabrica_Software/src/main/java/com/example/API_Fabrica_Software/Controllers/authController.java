@@ -1,8 +1,10 @@
 package com.example.API_Fabrica_Software.Controllers;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +15,12 @@ import com.example.API_Fabrica_Software.DTO.authiction.LoginRequestDTO;
 import com.example.API_Fabrica_Software.DTO.authiction.RegisterRequestDTO;
 import com.example.API_Fabrica_Software.DTO.authiction.ResponseDTO;
 import com.example.API_Fabrica_Software.DTO.authiction.updateDTO;
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.InfraSercurity.TokenService;
 import com.example.API_Fabrica_Software.Model.ClassUsers;
 import com.example.API_Fabrica_Software.Repository.RepositoryUser;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +40,7 @@ public class AuthController {
   private TokenService tokenService;
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
+  public ResponseEntity<?> login(@RequestBody LoginRequestDTO body, HttpServletRequest request) {
 
     ClassUsers user = repository.findByEmail(body.email())
         .orElseThrow(() -> new RuntimeException("User not found"));
@@ -45,7 +50,13 @@ public class AuthController {
       return ResponseEntity.ok(new ResponseDTO(user.getNome(), token));
     }
 
-    return ResponseEntity.status(401).body("Senha inválida");
+    return ResponseEntity.status(401).body(new ApiError(
+            LocalDateTime.now(),
+            401,
+            "Erro na autenticação",
+            "Senha incorreta",
+            request.getRequestURI()
+        ));
   }
 
   @PostMapping("/register")

@@ -34,6 +34,8 @@ C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Softwa
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\ProjetoDTO\dtoProjetoPost.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\ProjetoDTO\dtoProjetoResp.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\DTO\UsersDTO\userDtoInfoBasic.java
+C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\Exception\ApiError.java
+C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\Exception\GlobalExceptionHandler.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\InfraSercurity\CorsConfig.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\InfraSercurity\CustomUserDetailsService.java
 C:\Users\ismailer.junior\Documents\GitHub\gerenciadorprojetos\API_Fabrica_Software\src\main\java\com\example\API_Fabrica_Software\InfraSercurity\SecurityConfig.java
