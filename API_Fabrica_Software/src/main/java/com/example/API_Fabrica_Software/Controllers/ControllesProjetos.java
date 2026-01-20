@@ -17,7 +17,10 @@ import com.example.API_Fabrica_Software.Service.ProjetoService.ServiceGetProjeto
 import com.example.API_Fabrica_Software.Service.ProjetoService.ServiceGetProjetos;
 import com.example.API_Fabrica_Software.Service.ProjetoService.ServicePostProjetos;
 import com.example.API_Fabrica_Software.Service.ProjetoService.ServicePutProjetos;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,7 +56,7 @@ public class ControllesProjetos {
   ServiceGetProjeto serviceGetProjeto;
 
   @PostMapping("/addprojetos")
-  public ResponseEntity<dtoProjetoResp> CreatinProjeto(@RequestBody dtoProjetoPost DTO) {
+  public ResponseEntity<dtoProjetoResp> CreatinProjeto(@Valid @RequestBody dtoProjetoPost DTO) {
     ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
     return gestore;
   }
@@ -63,27 +66,27 @@ public class ControllesProjetos {
     return serviceGetProjetos.getProjetos();
   }
 
- @GetMapping("/getprojetos/{identicadorProjetos}")
- public ResponseEntity<dtoProjetoResp> GetProjetoId(@PathVariable String identicadorProjetos) {
+  @GetMapping("/getprojetos/{identicadorProjetos}")
+  public ResponseEntity<?> GetProjetoId(@PathVariable String identicadorProjetos, HttpServletRequest request) {
 
-  ResponseEntity<dtoProjetoResp> service = serviceGetProjeto.getProjeto(identicadorProjetos);
+    ResponseEntity<?> service = serviceGetProjeto.getProjeto(identicadorProjetos,request);
 
-  return service;
- }
+    return service;
+  }
 
- @PutMapping("/{identicadorProjetos}")
- @Transactional
- public ResponseEntity<dtoProjetoAtulizacaoInfomacao> updateProjetos(@PathVariable String identicadorProjetos,
-   @RequestBody dtoProjetoAtulizacaoInfomacao projeto) {
-  ResponseEntity<dtoProjetoAtulizacaoInfomacao> dtoProjetoRes = servicePutProjetos.putProjeto(identicadorProjetos,
-    projeto);
+  @PutMapping("/{identicadorProjetos}")
+  @Transactional
+  public ResponseEntity<dtoProjetoAtulizacaoInfomacao> updateProjetos(@PathVariable String identicadorProjetos,
+      @RequestBody dtoProjetoAtulizacaoInfomacao projeto) {
+    ResponseEntity<dtoProjetoAtulizacaoInfomacao> dtoProjetoRes = servicePutProjetos.putProjeto(identicadorProjetos,
+        projeto);
 
-  return dtoProjetoRes; // Melhor retornar o produto atualizado
- }
+    return dtoProjetoRes; // Melhor retornar o produto atualizado
+  }
 
   @DeleteMapping("/{identicadorProjetos}")
-  public ResponseEntity<dtoProjetoResp> DeleteProduct(@PathVariable String identicadorProjetos) {
-    ResponseEntity<dtoProjetoResp> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos);
+  public ResponseEntity<?> DeleteProduct(@PathVariable String identicadorProjetos, HttpServletRequest request) {
+    ResponseEntity<?> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos,request);
 
     return serveice;
   }

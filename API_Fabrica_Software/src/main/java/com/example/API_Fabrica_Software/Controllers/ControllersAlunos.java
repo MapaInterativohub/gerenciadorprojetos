@@ -147,6 +147,8 @@ public class ControllersAlunos {
             } else {
                 return ResponseEntity.badRequest().build();
             }
+        }else{
+            alunoEncontrado.setProjetoSelecionado(null);
         }
 
         alunoEncontrado.setNome(dtoAluno.getNome());

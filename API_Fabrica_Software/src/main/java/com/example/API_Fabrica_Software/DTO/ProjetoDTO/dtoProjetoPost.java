@@ -3,101 +3,118 @@ package com.example.API_Fabrica_Software.DTO.ProjetoDTO;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class dtoProjetoPost {
- private String nomeDoProjeto;
- private String descricaoDoProjeto;
- private String areaDeConhecimento;
- private LocalDate dataDeInicioDoProjeto;
- private LocalDate dataDoFimDoProjeto;
- private List<String> alunosParticipantesDoProjeto;
- private List<String> profesorOrientador;
- private String linkGit;
- private String linkImage;
+  @NotBlank(message = "Nome do projeto é obrigatório")
+  private String nomeDoProjeto;
 
- public dtoProjetoPost(String nomeDoProjeto, String descricaoDoProjeto, String areaDeConhecimento,
-   LocalDate dataDeInicioDoProjeto, LocalDate dataDoFimDoProjeto, List<String> alunosParticipantesDoProjeto,
-   List<String> profesorOrientador, String linkGit, String linkImage) {
-  this.nomeDoProjeto = nomeDoProjeto;
-  this.descricaoDoProjeto = descricaoDoProjeto;
-  this.areaDeConhecimento = areaDeConhecimento;
-  this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
-  this.dataDoFimDoProjeto = dataDoFimDoProjeto;
-  this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
-  this.profesorOrientador = profesorOrientador;
-  this.linkGit = linkGit;
-  this.linkImage = linkImage;
- }
+  @NotBlank(message = "Descrição do projeto é obrigatória")
+  @Size(min = 10, message = "A descrição deve ter no mínimo 10 caracteres")
+  private String descricaoDoProjeto;
 
- public String getNomeDoProjeto() {
-  return nomeDoProjeto;
- }
+  @NotBlank(message = "Área de conhecimento é obrigatória")
+  private String areaDeConhecimento;
 
- public void setNomeDoProjeto(String nomeDoProjeto) {
-  this.nomeDoProjeto = nomeDoProjeto;
- }
+  @NotNull(message = "Data de início é obrigatória")
+  private LocalDate dataDeInicioDoProjeto;
 
- public String getDescricaoDoProjeto() {
-  return descricaoDoProjeto;
- }
+  @NotNull(message = "Data de fim é obrigatória")
+  private LocalDate dataDoFimDoProjeto;
 
- public void setDescricaoDoProjeto(String descricaoDoProjeto) {
-  this.descricaoDoProjeto = descricaoDoProjeto;
- }
+  private List<String> alunosParticipantesDoProjeto;
 
- public String getAreaDeConhecimento() {
-  return areaDeConhecimento;
- }
+  private List<String> profesorOrientador;
+  private String linkGit;
+  @NotNull(message = "Imagen e Obrigatoria")
+  private String linkImage;
 
- public void setAreaDeConhecimento(String areaDeConhecimento) {
-  this.areaDeConhecimento = areaDeConhecimento;
- }
+  public dtoProjetoPost(String nomeDoProjeto, String descricaoDoProjeto, String areaDeConhecimento,
+      LocalDate dataDeInicioDoProjeto, LocalDate dataDoFimDoProjeto, List<String> alunosParticipantesDoProjeto,
+      List<String> profesorOrientador, String linkGit, String linkImage) {
+    this.nomeDoProjeto = nomeDoProjeto;
+    this.descricaoDoProjeto = descricaoDoProjeto;
+    this.areaDeConhecimento = areaDeConhecimento;
+    this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
+    this.dataDoFimDoProjeto = dataDoFimDoProjeto;
+    this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
+    this.profesorOrientador = profesorOrientador;
+    this.linkGit = linkGit;
+    this.linkImage = linkImage;
+  }
 
- public LocalDate getDataDeInicioDoProjeto() {
-  return dataDeInicioDoProjeto;
- }
+  public String getNomeDoProjeto() {
+    return nomeDoProjeto;
+  }
 
- public void setDataDeInicioDoProjeto(LocalDate dataDeInicioDoProjeto) {
-  this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
- }
+  public void setNomeDoProjeto(String nomeDoProjeto) {
+    this.nomeDoProjeto = nomeDoProjeto;
+  }
 
- public LocalDate getDataDoFimDoProjeto() {
-  return dataDoFimDoProjeto;
- }
+  public String getDescricaoDoProjeto() {
+    return descricaoDoProjeto;
+  }
 
- public void setDataDoFimDoProjeto(LocalDate dataDoFimDoProjeto) {
-  this.dataDoFimDoProjeto = dataDoFimDoProjeto;
- }
+  public void setDescricaoDoProjeto(String descricaoDoProjeto) {
+    this.descricaoDoProjeto = descricaoDoProjeto;
+  }
 
- public List<String> getAlunosParticipantesDoProjeto() {
-  return alunosParticipantesDoProjeto;
- }
+  public String getAreaDeConhecimento() {
+    return areaDeConhecimento;
+  }
 
- public void setAlunosParticipantesDoProjeto(List<String> alunosParticipantesDoProjeto) {
-  this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
- }
+  public void setAreaDeConhecimento(String areaDeConhecimento) {
+    this.areaDeConhecimento = areaDeConhecimento;
+  }
 
- public List<String> getProfesorOrientador() {
-  return profesorOrientador;
- }
+  public LocalDate getDataDeInicioDoProjeto() {
+    return dataDeInicioDoProjeto;
+  }
 
- public void setProfesorOrientador(List<String> profesorOrientador) {
-  this.profesorOrientador = profesorOrientador;
- }
+  public void setDataDeInicioDoProjeto(LocalDate dataDeInicioDoProjeto) {
+    this.dataDeInicioDoProjeto = dataDeInicioDoProjeto;
+  }
 
- public String getLinkGit() {
-  return linkGit;
- }
+  public LocalDate getDataDoFimDoProjeto() {
+    return dataDoFimDoProjeto;
+  }
 
- public void setLinkGit(String linkGit) {
-  this.linkGit = linkGit;
- }
+  public void setDataDoFimDoProjeto(LocalDate dataDoFimDoProjeto) {
+    this.dataDoFimDoProjeto = dataDoFimDoProjeto;
+  }
 
- public String getLinkImage() {
-  return linkImage;
- }
+  public List<String> getAlunosParticipantesDoProjeto() {
+    return alunosParticipantesDoProjeto;
+  }
 
- public void setLinkImage(String linkImage) {
-  this.linkImage = linkImage;
- }
+  public void setAlunosParticipantesDoProjeto(List<String> alunosParticipantesDoProjeto) {
+    this.alunosParticipantesDoProjeto = alunosParticipantesDoProjeto;
+  }
+
+  public List<String> getProfesorOrientador() {
+    return profesorOrientador;
+  }
+
+  public void setProfesorOrientador(List<String> profesorOrientador) {
+    this.profesorOrientador = profesorOrientador;
+  }
+
+  public String getLinkGit() {
+    return linkGit;
+  }
+
+  public void setLinkGit(String linkGit) {
+    this.linkGit = linkGit;
+  }
+
+  public String getLinkImage() {
+    return linkImage;
+  }
+
+  public void setLinkImage(String linkImage) {
+    this.linkImage = linkImage;
+  }
 
 }

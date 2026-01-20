@@ -1,5 +1,6 @@
 package com.example.API_Fabrica_Software.Controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.API_Fabrica_Software.DTO.GestoresDTO.dtoGestoresPost;
 import com.example.API_Fabrica_Software.DTO.GestoresDTO.dtoGestoresRespost;
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Model.ClassGestores;
 import com.example.API_Fabrica_Software.Model.ClassProjetos;
 import com.example.API_Fabrica_Software.Repository.RepositoryProjetos;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.example.API_Fabrica_Software.Repository.RepositoryGestores;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,8 +73,8 @@ public class ControllersGestores {
         dtoreposta.setDescricao(gestor.getDescricao());
         dtoreposta.setLinkImagenGestor(gestor.getLinkImagenGestor());
         dtoreposta.setProjetos(listaDeProjetos.stream()
-                                        .map(ClassProjetos::getCodigoProjeto)
-                                        .toList());
+                .map(ClassProjetos::getCodigoProjeto)
+                .toList());
 
         return ResponseEntity.ok(dtoreposta);
     }
@@ -81,12 +86,19 @@ public class ControllersGestores {
         return gestores.stream().map(dtoGestoresRespost::new).toList();
     }
 
-    @GetMapping("/gestore/{CodigoGestor}")
-    public ResponseEntity<dtoGestoresRespost> getMethodName(@PathVariable String CodigoGestor) {
+    @GetMapping("/gestor/{CodigoGestor}")
+    public ResponseEntity<?> getMethodName(@PathVariable String CodigoGestor, HttpServletRequest request) {
         Optional<ClassGestores> gestoresselecionados = repositoryGestores.findByCodigoGestor(CodigoGestor);
 
-        if (gestoresselecionados.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!gestoresselecionados.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassGestores gestor = gestoresselecionados.get();
@@ -98,30 +110,37 @@ public class ControllersGestores {
         dtoRes.setCursoResposavel(gestor.getCursoResposavel());
         dtoRes.setDescricao(gestor.getDescricao());
         dtoRes.setLinkImagenGestor(gestor.getLinkImagenGestor());
-        dtoRes.setProjetos(gestor.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList());
+        dtoRes.setProjetos(gestor.getProjetos().stream().map(ClassProjetos::getCodigoProjeto).toList());
 
         return ResponseEntity.ok(dtoRes);
     }
 
-    @PutMapping("/gestore/{CodigoGestor}")
-    public ResponseEntity<dtoGestoresRespost> putGestores(@PathVariable String CodigoGestor,
-            @RequestBody dtoGestoresPost gestorAtulisado) {
+    @PutMapping("/gestor/{CodigoGestor}")
+    public ResponseEntity<?> putGestores(@PathVariable String CodigoGestor,
+            @RequestBody dtoGestoresPost gestorAtulisado, HttpServletRequest request) {
         // TODO: process PUT request
         Optional<ClassGestores> itenOptional = repositoryGestores.findByCodigoGestor(CodigoGestor);
 
-        if (itenOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!itenOptional.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         List<ClassProjetos> listaAtualisada = new ArrayList<>();
 
-        if(gestorAtulisado.getProjetos() != null){
-            for(String codigoProjeto : gestorAtulisado.getProjetos()){
+        if (gestorAtulisado.getProjetos() != null) {
+            for (String codigoProjeto : gestorAtulisado.getProjetos()) {
                 Optional<ClassProjetos> progetoselecionado = repositoryProjetos.findByCodigoProjeto(codigoProjeto);
 
-                if(progetoselecionado.isPresent()){
+                if (progetoselecionado.isPresent()) {
                     listaAtualisada.add(progetoselecionado.get());
-                }else{
+                } else {
                     return ResponseEntity.notFound().build();
                 }
             }
@@ -144,19 +163,27 @@ public class ControllersGestores {
         dtoRes.setCursoResposavel(gestor.getCursoResposavel());
         dtoRes.setDescricao(gestor.getDescricao());
         dtoRes.setLinkImagenGestor(gestor.getLinkImagenGestor());
-        dtoRes.setProjetos((gestor.getProjetos() != null)?
-        gestor.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList() : null);
+        dtoRes.setProjetos((gestor.getProjetos() != null)
+                ? gestor.getProjetos().stream().map(ClassProjetos::getCodigoProjeto).toList()
+                : null);
 
         return ResponseEntity.ok(dtoRes);
     }
 
-    @DeleteMapping("/gestore/{CodigoGestor}")
-    public ResponseEntity<dtoGestoresRespost> deleteGestores(@PathVariable String CodigoGestor) {
+    @DeleteMapping("/gestor/{CodigoGestor}")
+    public ResponseEntity<?> deleteGestores(@PathVariable String CodigoGestor, HttpServletRequest request) {
 
         Optional<ClassGestores> itenOptional = repositoryGestores.findByCodigoGestor(CodigoGestor);
 
-        if (itenOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!itenOptional.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassGestores gestorDeletado = itenOptional.get();
@@ -168,8 +195,9 @@ public class ControllersGestores {
         dtoRes.setCursoResposavel(gestorDeletado.getCursoResposavel());
         dtoRes.setDescricao(gestorDeletado.getDescricao());
         dtoRes.setLinkImagenGestor(gestorDeletado.getLinkImagenGestor());
-        dtoRes.setProjetos((gestorDeletado.getProjetos() != null)?
-        gestorDeletado.getProjetos().stream().map(ClassProjetos :: getCodigoProjeto).toList() : null);
+        dtoRes.setProjetos((gestorDeletado.getProjetos() != null)
+                ? gestorDeletado.getProjetos().stream().map(ClassProjetos::getCodigoProjeto).toList()
+                : null);
 
         repositoryGestores.delete(gestorDeletado);
 
