@@ -1,58 +1,55 @@
 package com.example.API_Fabrica_Software.Model.ClassConfigPage;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "db_cursos")
 public class ClassCursos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(unique = true,nullable = false)
+
+    @Column(unique = true, nullable = false)
     private String codigoDoCurso;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String nomeDoCurso;
 
-    public ClassCursos(){
-
-    }
-    public ClassCursos(Long id, String codigoDoCurso, String nomeDoCurso) {
-        this.id = id;
-        this.codigoDoCurso = codigoDoCurso;
-        this.nomeDoCurso = nomeDoCurso;
-    }
-
     @PrePersist
-    public void GeraCodigoCurso(){
+    public void GeraCodigoCurso() {
         String prefixo = "CURS";
         int numero = (int) (Math.random() * 9000) + 1000;
         this.codigoDoCurso = prefixo + numero;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getCodigoDoCurso() {
-        return codigoDoCurso;
-    }
-    public void setCodigoDoCurso(String codigoDoCurso) {
-        this.codigoDoCurso = codigoDoCurso;
-    }
-    public String getNomeDoCurso() {
-        return nomeDoCurso;
-    }
-    public void setNomeDoCurso(String nomeDoCurso) {
-        this.nomeDoCurso = nomeDoCurso;
-    }
+    @CreatedDate
+    @Column(name = "datadecriacao")
+    private LocalDateTime dataDeCriacao;
+
+    @LastModifiedDate
+    @Column(name = "datadeatualizacao")
+    private LocalDateTime dataDeAtualizacao;
+
+    @Column(name = "idusuario")
+    private Long idUsuario;
 }

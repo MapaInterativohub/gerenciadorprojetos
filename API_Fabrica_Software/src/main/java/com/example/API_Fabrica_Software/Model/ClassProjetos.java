@@ -1,16 +1,21 @@
 package com.example.API_Fabrica_Software.Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "db_projetos")
 public class ClassProjetos {
 
@@ -52,7 +58,7 @@ public class ClassProjetos {
   @Column(nullable = false)
   private LocalDate dataDoFimDoProjeto;
 
-  @OneToMany(mappedBy = "projetoSelecionado" ,orphanRemoval = true)
+  @OneToMany(mappedBy = "projetoSelecionado", orphanRemoval = true)
   @JsonManagedReference
   @Column(nullable = true)
   private List<ClassAlunos> alunosParticipantesDoProjeto = new ArrayList<>();
@@ -70,4 +76,15 @@ public class ClassProjetos {
     int numero = (int) (Math.random() * 9000) + 1000;
     this.codigoProjeto = prefixo + numero;
   }
+
+  @CreatedDate
+  @Column(name = "datadecriacao")
+  private LocalDateTime dataDeCriacao;
+
+  @LastModifiedDate
+  @Column(name = "datadeatualizacao")
+  private LocalDateTime dataDeAtualizacao;
+
+  @Column(name = "idusuario")
+  private Long idUsuario;
 }

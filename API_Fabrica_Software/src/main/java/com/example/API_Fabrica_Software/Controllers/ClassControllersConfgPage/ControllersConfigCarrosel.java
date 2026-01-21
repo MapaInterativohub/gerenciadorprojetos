@@ -1,5 +1,6 @@
 package com.example.API_Fabrica_Software.Controllers.ClassControllersConfgPage;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoConfgCarrocelPost;
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoConfigCarrocelResp;
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Model.ClassConfigPage.ClassCarrocel;
 import com.example.API_Fabrica_Software.Repository.RepositoryConfgSite.RepositoryCarrocel;
 
-
-
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/carrocel")
@@ -32,7 +33,7 @@ public class ControllersConfigCarrosel {
     RepositoryCarrocel repositorioImagens;
 
     @PostMapping("/addimagen")
-    public ResponseEntity<dtoConfigCarrocelResp> PostImagens(@RequestBody dtoConfgCarrocelPost dtoCarrocel){
+    public ResponseEntity<dtoConfigCarrocelResp> PostImagens(@RequestBody dtoConfgCarrocelPost dtoCarrocel) {
 
         ClassCarrocel imagem = new ClassCarrocel();
 
@@ -41,38 +42,44 @@ public class ControllersConfigCarrosel {
 
         repositorioImagens.save(imagem);
 
-        dtoConfigCarrocelResp dtoRepost =  new dtoConfigCarrocelResp();
+        dtoConfigCarrocelResp dtoRepost = new dtoConfigCarrocelResp();
 
         dtoRepost.setcodigoImagem(imagem.getCodigoImagem());
         dtoRepost.setLinkImagenCarrocel(imagem.getLinkImagenCarrocel());
         dtoRepost.setImagenAtivadaDesativada(imagem.getImagenAtivadaDesativada());
-         
-    
+
         return ResponseEntity.ok(dtoRepost);
     }
 
     @GetMapping("/carrocel_imagens")
-    public List<dtoConfigCarrocelResp> getImagens(){
+    public List<dtoConfigCarrocelResp> getImagens() {
         List<ClassCarrocel> imagens = repositorioImagens.findAll();
 
         return imagens.stream().map(dtoConfigCarrocelResp::new).toList();
     }
+
     @PutMapping("path/{codigoImagem}")
-    public ResponseEntity<dtoConfgCarrocelPost> putAlizarImg(@PathVariable String codigoImagem, @RequestBody dtoConfgCarrocelPost dto) {
-        //TODO: process PUT request
+    public ResponseEntity<?> putAlizarImg(@PathVariable String codigoImagem,
+            @RequestBody dtoConfgCarrocelPost dto, HttpServletRequest request) {
+        // TODO: process PUT request
 
-        Optional<ClassCarrocel> imagem = repositorioImagens.findByCodigoImagem(codigoImagem); 
-
-        if(imagem.isEmpty()){
-            return ResponseEntity.notFound().build();
+        Optional<ClassCarrocel> imagem = repositorioImagens.findByCodigoImagem(codigoImagem);
+        if (!imagem.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassCarrocel imgEncontrada = imagem.get();
 
         imgEncontrada.setLinkImagenCarrocel(dto.getLinkImagenCarrocel());
         imgEncontrada.setImagenAtivadaDesativada(dto.getImagenAtivadaDesativada());
-        
-    
+
         repositorioImagens.save(imgEncontrada);
 
         dtoConfgCarrocelPost dtoResposta = new dtoConfgCarrocelPost();
@@ -84,16 +91,21 @@ public class ControllersConfigCarrosel {
     }
 
     @DeleteMapping("path/{codigoImagem}")
-    public ResponseEntity<dtoConfgCarrocelPost> putAlizarImg(@PathVariable String codigoImagem) {
+    public ResponseEntity<?> putAlizarImg(@PathVariable String codigoImagem, HttpServletRequest request) {
 
-        Optional<ClassCarrocel> imagem = repositorioImagens.findByCodigoImagem(codigoImagem); 
-
-        if(imagem.isEmpty()){
-            return ResponseEntity.notFound().build();
+        Optional<ClassCarrocel> imagem = repositorioImagens.findByCodigoImagem(codigoImagem);
+        if (!imagem.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassCarrocel imgEncontrada = imagem.get();
-        
 
         repositorioImagens.delete(imgEncontrada);
 

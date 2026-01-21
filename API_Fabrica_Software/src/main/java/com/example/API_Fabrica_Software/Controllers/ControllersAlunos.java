@@ -1,5 +1,6 @@
 package com.example.API_Fabrica_Software.Controllers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.API_Fabrica_Software.DTO.AlunosDTO.dtoAlunoAtulizarInfomacao;
 import com.example.API_Fabrica_Software.DTO.AlunosDTO.dtoAlunosPost;
 import com.example.API_Fabrica_Software.DTO.AlunosDTO.dtoAlunosRespost;
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Model.ClassAlunos;
 import com.example.API_Fabrica_Software.Model.ClassProjetos;
 import com.example.API_Fabrica_Software.Repository.RepositoryAlunos;
 import com.example.API_Fabrica_Software.Repository.RepositoryProjetos;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +37,7 @@ public class ControllersAlunos {
 
     @Autowired
     RepositoryProjetos repositoryProjetos;
-    
+
     @PostMapping("/addalunos")
     public ResponseEntity<dtoAlunosRespost> postAlunos(@RequestBody dtoAlunosPost dto) {
         // TODO: process POST request
@@ -50,7 +54,6 @@ public class ControllersAlunos {
         } else {
             aluno.setProjetoSelecionado(null);
         }
-       
 
         aluno.setRa(dto.getRa());
         aluno.setNome(dto.getNome());
@@ -68,7 +71,7 @@ public class ControllersAlunos {
         dtoResposta.setEmailInstitucional(salvo.getEmailInstitucional());
         dtoResposta.setCurso(salvo.getCurso());
         dtoResposta.setProjetoSelecionado(
-        salvo.getProjetoSelecionado() != null ? salvo.getProjetoSelecionado().getNomeDoProjeto() : null);
+                salvo.getProjetoSelecionado() != null ? salvo.getProjetoSelecionado().getNomeDoProjeto() : null);
 
         dtoResposta.setMotivoDaInscricao(salvo.getMotivoDaInscricao());
 
@@ -82,11 +85,18 @@ public class ControllersAlunos {
     }
 
     @GetMapping("/aluno/{ra}")
-    public ResponseEntity<dtoAlunosRespost> getAluno(@PathVariable String ra) {
+    public ResponseEntity<?> getAluno(@PathVariable String ra, HttpServletRequest request) {
         Optional<ClassAlunos> alunoOptional = repositoryAlunos.findByRa(ra);
 
-        if (alunoOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!alunoOptional.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassAlunos projeto = alunoOptional.get();
@@ -97,18 +107,26 @@ public class ControllersAlunos {
         dtoSelecionado.setNome(projeto.getNome());
         dtoSelecionado.setEmailInstitucional(projeto.getEmailInstitucional());
         dtoSelecionado.setCurso(projeto.getCurso());
-        dtoSelecionado.setProjetoSelecionado(projeto.getProjetoSelecionado() != null ? projeto.getProjetoSelecionado().getCodigoProjeto() : null);
+        dtoSelecionado.setProjetoSelecionado(
+                projeto.getProjetoSelecionado() != null ? projeto.getProjetoSelecionado().getCodigoProjeto() : null);
         dtoSelecionado.setMotivoDaInscricao(projeto.getMotivoDaInscricao());
 
         return ResponseEntity.ok(dtoSelecionado);
     }
 
     @DeleteMapping("/aluno/{ra}")
-    public ResponseEntity<dtoAlunosRespost> delAluno(@PathVariable String ra) {
+    public ResponseEntity<?> delAluno(@PathVariable String ra, HttpServletRequest request) {
         Optional<ClassAlunos> deletAluno = repositoryAlunos.findByRa(ra);
 
-        if (deletAluno.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!deletAluno.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassAlunos alunoDeletado = deletAluno.get();
@@ -128,15 +146,22 @@ public class ControllersAlunos {
     }
 
     @PutMapping("/aluno/{ra}")
-    public ResponseEntity<dtoAlunosRespost> putMethodName(@PathVariable String ra,
-            @RequestBody dtoAlunoAtulizarInfomacao dtoAluno) {
+    public ResponseEntity<?> putMethodName(@PathVariable String ra,
+            @RequestBody dtoAlunoAtulizarInfomacao dtoAluno,HttpServletRequest request) {
 
         Optional<ClassAlunos> alunoSelecionado = repositoryAlunos.findByRa(ra);
 
-        if (alunoSelecionado.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!alunoSelecionado.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
-
+        
         ClassAlunos alunoEncontrado = alunoSelecionado.get();
 
         if (dtoAluno.getProjetoSelecionado() != null) {
@@ -147,7 +172,7 @@ public class ControllersAlunos {
             } else {
                 return ResponseEntity.badRequest().build();
             }
-        }else{
+        } else {
             alunoEncontrado.setProjetoSelecionado(null);
         }
 

@@ -1,14 +1,28 @@
 package com.example.API_Fabrica_Software.Model.ClassConfigPage;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "db_configuracao_site")
 public class ClassConfigSite {
  @Id
@@ -24,53 +38,21 @@ public class ClassConfigSite {
  @Column(columnDefinition = "TEXT")
  private String valorSalvo;
 
- public ClassConfigSite(){
-  
- }
-
- public ClassConfigSite(Long id, String codigoDaConfguracao, String nomeConfig, String valorSalvo) {
-  this.id = id;
-  this.codigoDaConfguracao = codigoDaConfguracao;
-  this.nomeConfig = nomeConfig;
-  this.valorSalvo = valorSalvo;
- }
  @PrePersist
- public void GeradorDeCodigoConfiguracao(){
+ public void GeradorDeCodigoConfiguracao() {
   String prefixo = "CONF";
   int numero = (int) (Math.random() * 9000) + 1000;
   this.codigoDaConfguracao = prefixo + numero;
  }
 
- public Long getId() {
-  return id;
- }
+ @CreatedDate
+ @Column(name = "datadecriacao")
+ private LocalDateTime dataDeCriacao;
 
- public void setId(Long id) {
-  this.id = id;
- }
+ @LastModifiedDate
+ @Column(name = "datadeatualizacao")
+ private LocalDateTime dataDeAtualizacao;
 
- public String getCodigoDaConfguracao() {
-  return codigoDaConfguracao;
- }
-
- public void setCodigoDaConfguracao(String codigoDaConfguracao) {
-  this.codigoDaConfguracao = codigoDaConfguracao;
- }
-
- public String getNomeConfig() {
-  return nomeConfig;
- }
-
- public void setNomeConfig(String nomeConfig) {
-  this.nomeConfig = nomeConfig;
- }
-
- public String getValorSalvo() {
-  return valorSalvo;
- }
-
- public void setValorSalvo(String valorSalvo) {
-  this.valorSalvo = valorSalvo;
- }
-
+ @Column(name = "idusuario")
+ private Long idUsuario;
 }

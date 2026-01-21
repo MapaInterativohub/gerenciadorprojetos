@@ -1,5 +1,6 @@
 package com.example.API_Fabrica_Software.Controllers.ClassControllersConfgPage;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoClassImageCursoPost;
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoClassImageCursoResp;
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Model.ClassConfigPage.ClassImageCursos;
 import com.example.API_Fabrica_Software.Repository.RepositoryConfgSite.RepositoryImagensCurso;
 
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/imagemcurso")
@@ -28,8 +31,8 @@ public class ControllerClassImageCurso {
     RepositoryImagensCurso crepositoryImagensCurso;
 
     @PostMapping("/imagemcurso")
-    public ResponseEntity<dtoClassImageCursoResp> AddImagenCurso(@RequestBody dtoClassImageCursoPost dto){
-        ClassImageCursos imagen =  new ClassImageCursos();
+    public ResponseEntity<dtoClassImageCursoResp> AddImagenCurso(@RequestBody dtoClassImageCursoPost dto) {
+        ClassImageCursos imagen = new ClassImageCursos();
 
         imagen.setLinkImagemCurso(dto.getLinkImagemCurso());
         imagen.setAltImagem(dto.getAltImagem());
@@ -46,20 +49,27 @@ public class ControllerClassImageCurso {
     }
 
     @GetMapping("/imagemcurso")
-    public List<dtoClassImageCursoResp> GetImagens(){
+    public List<dtoClassImageCursoResp> GetImagens() {
         List<ClassImageCursos> dados = crepositoryImagensCurso.findAll();
         return dados.stream().map(dtoClassImageCursoResp::new).toList();
     }
 
     @GetMapping("/imagemcurso/{codigoImagem}")
-    public ResponseEntity<dtoClassImageCursoResp> GetImagen(@PathVariable String codigoImagem){
+    public ResponseEntity<?> GetImagen(@PathVariable String codigoImagem, HttpServletRequest request) {
         Optional<ClassImageCursos> imagens = crepositoryImagensCurso.findByCodigoImagem(codigoImagem);
-        if(imagens.isEmpty()){
-            return ResponseEntity.notFound().build();
+        if (!imagens.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassImageCursos imagen = imagens.get();
-        dtoClassImageCursoResp repostaDto =  new dtoClassImageCursoResp();
+        dtoClassImageCursoResp repostaDto = new dtoClassImageCursoResp();
 
         repostaDto.setCodigoImagem(imagen.getCodigoImagem());
         repostaDto.setLinkImagemCurso(imagen.getLinkImagemCurso());
@@ -67,12 +77,20 @@ public class ControllerClassImageCurso {
 
         return ResponseEntity.ok(repostaDto);
     }
-    @DeleteMapping("/imagemcurso/{codigoImagem}")
-    public ResponseEntity<dtoClassImageCursoResp> DeletImagen(@PathVariable String codigoImagem){
-        Optional<ClassImageCursos> itenSelecionado =  crepositoryImagensCurso.findByCodigoImagem(codigoImagem);
 
-        if(itenSelecionado.isEmpty()){
-            return ResponseEntity.notFound().build();
+    @DeleteMapping("/imagemcurso/{codigoImagem}")
+    public ResponseEntity<?> DeletImagen(@PathVariable String codigoImagem, HttpServletRequest request) {
+        Optional<ClassImageCursos> itenSelecionado = crepositoryImagensCurso.findByCodigoImagem(codigoImagem);
+
+        if (!itenSelecionado.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassImageCursos iten = itenSelecionado.get();

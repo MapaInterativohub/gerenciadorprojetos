@@ -1,5 +1,6 @@
 package com.example.API_Fabrica_Software.Controllers.ClassControllersConfgPage;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoClassCursoPost;
 import com.example.API_Fabrica_Software.DTO.ConfgDTOPage.dtoClassCursoResp;
-
+import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Model.ClassConfigPage.ClassCursos;
 import com.example.API_Fabrica_Software.Repository.RepositoryConfgSite.RepositoryCurso;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/curso")
@@ -66,11 +69,18 @@ public class ControllerClassCurso {
     }
 
     @DeleteMapping("/curso/{codigoDoCurso}")
-    public ResponseEntity<dtoClassCursoResp> DeletImagen(@PathVariable String codigoDoCurso) {
+    public ResponseEntity<?> DeletImagen(@PathVariable String codigoDoCurso,HttpServletRequest request) {
         Optional<ClassCursos> itenSelecionado = repositoryCurso.findByCodigoDoCurso(codigoDoCurso);
 
-        if (itenSelecionado.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (!itenSelecionado.isPresent()) {
+            System.out.println("Iten não encontardor");
+            return ResponseEntity.status(404).body(
+                    new ApiError(
+                            LocalDateTime.now(),
+                            404,
+                            "NOT_FOUND",
+                            "Projeto nao encontrado",
+                            request.getRequestURI()));
         }
 
         ClassCursos iten = itenSelecionado.get();
