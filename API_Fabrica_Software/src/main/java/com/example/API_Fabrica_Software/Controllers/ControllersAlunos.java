@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/alunos")
-@CrossOrigin(origins = "*")
 public class ControllersAlunos {
     @Autowired
     RepositoryAlunos repositoryAlunos;

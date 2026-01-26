@@ -16,7 +16,6 @@ import com.example.API_Fabrica_Software.Model.ClassGestores;
 import com.example.API_Fabrica_Software.Model.ClassProjetos;
 import com.example.API_Fabrica_Software.Repository.RepositoryProjetos;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service

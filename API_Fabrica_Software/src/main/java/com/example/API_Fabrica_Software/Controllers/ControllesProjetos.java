@@ -25,14 +25,12 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/projetos")
-@CrossOrigin(origins = "*")
 public class ControllesProjetos {
   @Autowired
   RepositoryProjetos repositorioProjetos;
@@ -55,25 +53,29 @@ public class ControllesProjetos {
   @Autowired
   ServiceGetProjeto serviceGetProjeto;
 
+  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
   @PostMapping("/addprojetos")
   public ResponseEntity<dtoProjetoResp> CreatinProjeto(@Valid @RequestBody dtoProjetoPost DTO) {
     ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
     return gestore;
   }
 
+  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
   @GetMapping("/getprojetos")
   public List<dtoProjetoResp> GetProjeto() {
     return serviceGetProjetos.getProjetos();
   }
 
+  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
   @GetMapping("/getprojetos/{identicadorProjetos}")
   public ResponseEntity<?> GetProjetoId(@PathVariable String identicadorProjetos, HttpServletRequest request) {
 
-    ResponseEntity<?> service = serviceGetProjeto.getProjeto(identicadorProjetos,request);
+    ResponseEntity<?> service = serviceGetProjeto.getProjeto(identicadorProjetos, request);
 
     return service;
   }
 
+  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
   @PutMapping("/{identicadorProjetos}")
   @Transactional
   public ResponseEntity<dtoProjetoAtulizacaoInfomacao> updateProjetos(@PathVariable String identicadorProjetos,
@@ -84,11 +86,17 @@ public class ControllesProjetos {
     return dtoProjetoRes; // Melhor retornar o produto atualizado
   }
 
+  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
   @DeleteMapping("/{identicadorProjetos}")
   public ResponseEntity<?> DeleteProduct(@PathVariable String identicadorProjetos, HttpServletRequest request) {
-    ResponseEntity<?> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos,request);
+    ResponseEntity<?> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos, request);
 
     return serveice;
+  }
+
+  @GetMapping("/teste-privado")
+  public String teste() {
+    return "SE APARECER SEM TOKEN, ESTÁ ERRADO";
   }
 
 }
