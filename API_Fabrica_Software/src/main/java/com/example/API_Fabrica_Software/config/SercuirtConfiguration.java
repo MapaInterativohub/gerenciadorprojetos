@@ -18,6 +18,7 @@ public class SercuirtConfiguration {
       SessionCreationPolicy.STATELESS))
     .authorizeHttpRequests(
       authoriza -> authoriza.requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+        .requestMatchers(HttpMethod.POST,"/user").permitAll()
         .anyRequest().authenticated())
     .build();
  }
