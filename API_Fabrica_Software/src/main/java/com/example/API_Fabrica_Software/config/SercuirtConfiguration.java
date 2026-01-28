@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -21,17 +22,20 @@ public class SercuirtConfiguration {
   @Autowired
   SercurityFilter sercurityFilter;
 
+  // @Autowired
+  CorsConfigurationSource configurationSource;
+
   @Bean
   public SecurityFilterChain securitFilterChan(HttpSecurity httpSecurity) throws Exception {
     return httpSecurity
+        .cors(cors -> cors.configurationSource(configurationSource))
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(session -> session.sessionCreationPolicy(
             SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authoriza -> authoriza
-            .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.POST, "/auth").permitAll()
+            .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
-            .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
+            .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(sercurityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
