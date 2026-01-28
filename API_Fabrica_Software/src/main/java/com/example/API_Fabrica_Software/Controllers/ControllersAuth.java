@@ -32,7 +32,6 @@ public class ControllersAuth {
 
     @PostMapping("/refresh")
     public ResponseAuthDTO authRefreshToker(@RequestBody authRefrashToker refresh) {
-        System.out.println(refresh.refresh());
         return authenticacaoServices.obtetTokenRefreshToker(refresh.refresh());
     }
 

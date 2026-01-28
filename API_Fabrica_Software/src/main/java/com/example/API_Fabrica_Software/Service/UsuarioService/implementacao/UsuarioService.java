@@ -1,6 +1,7 @@
 package com.example.API_Fabrica_Software.Service.UsuarioService.implementacao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +27,13 @@ public class UsuarioService implements UsuarioServices {
     ClassUsuario user = new ClassUsuario(usuario.nome(), usuario.login(), senhaCriptografada, usuario.roles());
 
     repositoryUsuario.save(user);
-    return new repostaUsuarioDTO(user.getNome(), user.getLogin(), user.getRoles());
+    return new repostaUsuarioDTO(
+        user.getId(),
+        user.getNome(),
+        user.getLogin(),
+        user.getRoles(),
+        user.getDataDeCriacao(),
+        user.getDataDeAtulizacao());
   }
 
   @Override
@@ -34,9 +41,30 @@ public class UsuarioService implements UsuarioServices {
     List<ClassUsuario> users = repositoryUsuario.findAll();
     return users.stream().map(
         user -> new repostaUsuarioDTO(
+            user.getId(),
             user.getNome(),
             user.getLogin(),
-            user.getRoles()))
+            user.getRoles(),
+            user.getDataDeCriacao(),
+            user.getDataDeAtulizacao()))
         .toList();
+  }
+
+  @Override
+  public repostaUsuarioDTO getUser(Long id) {
+    Optional<ClassUsuario> user = repositoryUsuario.findById(id);
+
+    if (!user.isPresent()) {
+      return null;
+    }
+
+    ClassUsuario u = user.get();
+    return new repostaUsuarioDTO(
+        u.getId(),
+        u.getNome(),
+        u.getLogin(),
+        u.getRoles(),
+        u.getDataDeCriacao(),
+        u.getDataDeAtulizacao());
   }
 }

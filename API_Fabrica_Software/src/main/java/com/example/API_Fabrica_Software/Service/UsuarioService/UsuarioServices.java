@@ -9,4 +9,6 @@ public interface UsuarioServices {
  public repostaUsuarioDTO salvar(criarUsuarioDTO usuario);
 
  List<repostaUsuarioDTO> usuarios();
+
+ repostaUsuarioDTO getUser(Long id);
 }

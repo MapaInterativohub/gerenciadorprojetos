@@ -39,6 +39,8 @@ public class AuthenticacaoService implements AuthenticacaoServises {
         ClassUsuario usuario = repositoryUsuario.findByLogin(ayAuthDTO.login());
         return ResponseAuthDTO
                 .builder()
+                .nome(usuario.getNome())
+                .roles(usuario.getRoles())
                 .toker(geraToken(usuario, horaExpiracaoToken))
                 .refreshToker(geraToken(usuario, horaExpiracaoRefreshToken))
                 .build();
