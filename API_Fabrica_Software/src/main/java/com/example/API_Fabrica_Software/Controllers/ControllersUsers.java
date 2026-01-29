@@ -19,6 +19,7 @@ import com.example.API_Fabrica_Software.Service.UsuarioService.UsuarioServices;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -64,6 +65,12 @@ public class ControllersUsers {
         }
 
         return ResponseEntity.ok().body(user);
+    }
+
+    @PreAuthorize("hasAnyRole(\"ADMIN\")")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
+        return usuarioServices.deletaUsuario(id);
     }
 
 }

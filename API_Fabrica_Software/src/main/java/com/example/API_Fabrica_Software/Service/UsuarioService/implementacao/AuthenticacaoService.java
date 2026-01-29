@@ -29,7 +29,6 @@ public class AuthenticacaoService implements AuthenticacaoServises {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         return repositoryUsuario.findByLogin(login);
     }
-
     Integer horaExpiracaoToken = 1;
     Integer horaExpiracaoRefreshToken = 5;
 

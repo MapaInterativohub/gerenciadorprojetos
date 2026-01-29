@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,20 +54,20 @@ public class ControllesProjetos {
   @Autowired
   ServiceGetProjeto serviceGetProjeto;
 
-  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @PostMapping("/addprojetos")
   public ResponseEntity<dtoProjetoResp> CreatinProjeto(@Valid @RequestBody dtoProjetoPost DTO) {
     ResponseEntity<dtoProjetoResp> gestore = servicePostProjetos.postProjeto(DTO);
     return gestore;
   }
 
-  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @GetMapping("/getprojetos")
   public List<dtoProjetoResp> GetProjeto() {
     return serviceGetProjetos.getProjetos();
   }
 
-  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @GetMapping("/getprojetos/{identicadorProjetos}")
   public ResponseEntity<?> GetProjetoId(@PathVariable String identicadorProjetos, HttpServletRequest request) {
 
@@ -75,7 +76,7 @@ public class ControllesProjetos {
     return service;
   }
 
-  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @PutMapping("/{identicadorProjetos}")
   @Transactional
   public ResponseEntity<dtoProjetoAtulizacaoInfomacao> updateProjetos(@PathVariable String identicadorProjetos,
@@ -86,7 +87,7 @@ public class ControllesProjetos {
     return dtoProjetoRes; // Melhor retornar o produto atualizado
   }
 
-  // @PreAuthorize("hasAnyRole('ADMIN','NIVEL_1','NIVEL_2')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @DeleteMapping("/{identicadorProjetos}")
   public ResponseEntity<?> DeleteProduct(@PathVariable String identicadorProjetos, HttpServletRequest request) {
     ResponseEntity<?> serveice = serviceDeleteProjetos.deleteProjeto(identicadorProjetos, request);

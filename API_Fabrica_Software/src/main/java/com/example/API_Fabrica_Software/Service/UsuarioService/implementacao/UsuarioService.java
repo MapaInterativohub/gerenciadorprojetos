@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.example.API_Fabrica_Software.Controllers.ControllersUsers;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.criarUsuarioDTO;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.repostaUsuarioDTO;
 import com.example.API_Fabrica_Software.Model.ClassUsuario;
@@ -15,6 +16,7 @@ import com.example.API_Fabrica_Software.Service.UsuarioService.UsuarioServices;
 
 @Service
 public class UsuarioService implements UsuarioServices {
+
   @Autowired
   RepositoryUsuario repositoryUsuario;
   @Autowired
@@ -66,5 +68,16 @@ public class UsuarioService implements UsuarioServices {
         u.getRoles(),
         u.getDataDeCriacao(),
         u.getDataDeAtulizacao());
+  }
+
+  @Override
+  public ResponseEntity<?> deletaUsuario(Long id) {
+    Optional<ClassUsuario> user = repositoryUsuario.findById(id);
+
+    if (user.isPresent()) {
+      repositoryUsuario.delete(user.get());
+      return ResponseEntity.ok().body("Usuario deletado");
+    }
+    return ResponseEntity.badRequest().build();
   }
 }
