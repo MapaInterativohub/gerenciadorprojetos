@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.criarUsuarioDTO;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.repostaUsuarioDTO;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.updateUsuarioDTO;
+import com.example.API_Fabrica_Software.Model.ClassUsuario;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,6 @@ public interface UsuarioServices {
 
  ResponseEntity<?> deletaUsuario(Long id);
 
- ResponseEntity<?> updateUsuario(updateUsuarioDTO user);
+ public ResponseEntity<?> updateUsuario(updateUsuarioDTO user, ClassUsuario us);
 
 }

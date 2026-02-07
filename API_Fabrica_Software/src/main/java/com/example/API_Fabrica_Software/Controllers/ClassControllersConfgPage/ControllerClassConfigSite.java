@@ -29,7 +29,7 @@ public class ControllerClassConfigSite {
   @Autowired
   RepositoryConfigSite repositoryConfigSite;
 
-  @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\")")
+  @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\",\"USER_N2\",\"USER\")")
   @GetMapping("/config")
   public List<dtoClassConfgSiteResp> getConfigSite() {
     List<ClassConfigSite> itens = repositoryConfigSite.findAll();

@@ -49,7 +49,7 @@ public class ControllerClassCurso {
     }
 
     @GetMapping("/curso")
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\")")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\",\"USER_N2\",\"USER\")")
     public List<dtoClassCursoResp> GetImagens() {
         List<ClassCursos> dados = repositoryCurso.findAll();
         return dados.stream().map(dtoClassCursoResp::new).toList();

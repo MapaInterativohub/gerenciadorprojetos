@@ -51,14 +51,14 @@ public class ControllerClassImageCurso {
     }
 
     @GetMapping("/imagemcurso")
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\")")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\",\"USER_N2\",\"USER\")")
     public List<dtoClassImageCursoResp> GetImagens() {
         List<ClassImageCursos> dados = crepositoryImagensCurso.findAll();
         return dados.stream().map(dtoClassImageCursoResp::new).toList();
     }
 
     @GetMapping("/imagemcurso/{codigoImagem}")
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\")")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER_N1\",\"USER_N2\",\"USER\")")
     public ResponseEntity<?> GetImagen(@PathVariable String codigoImagem, HttpServletRequest request) {
         Optional<ClassImageCursos> imagens = crepositoryImagensCurso.findByCodigoImagem(codigoImagem);
         if (!imagens.isPresent()) {

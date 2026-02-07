@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.criarUsuarioDTO;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.repostaUsuarioDTO;
 import com.example.API_Fabrica_Software.DTO.UsersDTO.updateUsuarioDTO;
+import com.example.API_Fabrica_Software.Enun.NivelUsuario;
 import com.example.API_Fabrica_Software.Exception.ApiError;
 import com.example.API_Fabrica_Software.Exception.SenhaInvalidaException;
 import com.example.API_Fabrica_Software.Exception.UsuarioNaoEncontradoException;
@@ -89,7 +90,7 @@ public class UsuarioService implements UsuarioServices {
   }
 
   @Override
-  public ResponseEntity<?> updateUsuario(updateUsuarioDTO user) {
+  public ResponseEntity<?> updateUsuario(updateUsuarioDTO user, ClassUsuario us) {
     ClassUsuario userUpdate = repositoryUsuario.findByLogin(user.login());
 
     if (userUpdate == null) {
@@ -115,7 +116,10 @@ public class UsuarioService implements UsuarioServices {
 
     userUpdate.setNome(user.nome());
     userUpdate.setLogin(user.login());
-    userUpdate.setRoles(user.roles());
+
+    if (us.getRoles().equals(NivelUsuario.ADMIN)) {
+      userUpdate.setRoles(user.roles());
+    }
 
     repositoryUsuario.save(userUpdate);
 

@@ -36,7 +36,7 @@ public class ControllersUsers {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER\")")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER\",\"USER_N1\",\"USER_N2\")")
     public List<repostaUsuarioDTO> getMethodName(Authentication auth) {
         ClassUsuario usuarioLogado = (ClassUsuario) auth.getPrincipal();
         System.out.println(usuarioLogado.getRoles());
@@ -53,8 +53,6 @@ public class ControllersUsers {
     @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER\",\"USER_N1\",\"USER_N2\")")
     public ResponseEntity<?> getMethodName(@PathVariable Long id, Authentication auth) {
         ClassUsuario usuarioLogado = (ClassUsuario) auth.getPrincipal();
-        System.out.println(usuarioLogado.getRoles());
-
         var user = usuarioServices.getUser(id);
 
         if (user == null) {
@@ -68,18 +66,37 @@ public class ControllersUsers {
         return ResponseEntity.ok().body(user);
     }
 
-    @PreAuthorize("hasAnyRole(\"ADMIN\")")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER\",\"USER_N1\",\"USER_N2\")")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Long id) {
-        return usuarioServices.deletaUsuario(id);
+    public ResponseEntity<?> deletar(@PathVariable Long id,Authentication auth) {
+        ClassUsuario usuarioLogado = (ClassUsuario) auth.getPrincipal();
+
+        if(usuarioLogado.getRoles().equals(NivelUsuario.ADMIN)){
+            return usuarioServices.deletaUsuario(id);
+        }
+
+        if(usuarioLogado.getId().equals(id)){
+             return usuarioServices.deletaUsuario(id);
+        }
+
+        return null;
     }
 
     @PreAuthorize("hasAnyRole(\"ADMIN\",\"USER\",\"USER_N1\",\"USER_N2\")")
     @PutMapping("/{id}")
     public ResponseEntity<?> putMethodName(@PathVariable Long id,
-            @RequestBody updateUsuarioDTO entity) {
-        ResponseEntity<?> response = usuarioServices.updateUsuario(entity);
-        return response;
+            @RequestBody updateUsuarioDTO entity, Authentication auth) {
+        ClassUsuario usuarioLogado = (ClassUsuario) auth.getPrincipal();
+
+        if(usuarioLogado.getRoles().equals(NivelUsuario.ADMIN)){
+            return usuarioServices.updateUsuario(entity,usuarioLogado);
+        }
+
+        if(usuarioLogado.getId().equals(id)){
+            return usuarioServices.updateUsuario(entity,usuarioLogado);
+        }
+
+        return null;
     }
 
 }
